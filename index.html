@@ -25,6 +25,7 @@
             --cream: #f5f5dc;
             --paper: #fffdf0;
             --text: #2c3e50;
+            --danger: #d32f2f;
             --jute-pattern: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZDdjY2M4Ii8+CjxwYXRoIGQ9Ik0wIDBMNCA0Wk00IDBMMCA0WiIgc3Ryb2tlPSJyZ2JhKDEzOSw2OSwxOSwwLjE1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjwvc3ZnPg==');
         }
 
@@ -51,7 +52,7 @@
         }
 
         .bag-panel {
-            position: absolute; top: 0; width: 51%; height: 100%;
+            position: absolute; top: 0; width: 50%; height: 100%;
             background-color: #d7ccc8;
             background-image: var(--jute-pattern);
             box-shadow: inset 0 0 120px rgba(0,0,0,0.6); z-index: 2;
@@ -72,13 +73,13 @@
 
         #hang-tag {
             position: relative;
-            z-index: 10; width: 160px; height: 220px; margin-bottom: 30px;
+            z-index: 10; width: 180px; height: 240px; margin-bottom: 30px;
             background: #fdfbf7; border: 4px solid var(--leather); border-radius: 8px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             cursor: pointer; box-shadow: 0 15px 35px rgba(0,0,0,0.5);
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        #hang-tag:hover { transform: scale(1.05); }
+        #hang-tag:hover { transform: scale(1.05) rotate(-2deg); }
         .tag-ring { width: 20px; height: 20px; background: #333; border-radius: 50%; border: 3px solid #ccc; position: absolute; top: 15px; }
 
         .intro-buttons { position: relative; z-index: 20; display: flex; gap: 20px; transition: opacity 0.5s ease; }
@@ -90,13 +91,13 @@
         }
         .cover-btn:hover { background: var(--leather); color: var(--gold); transform: translateY(-3px); }
 
-        body.unzipped .bag-panel.left { transform: translateX(-100%); }
-        body.unzipped .bag-panel.right { transform: translateX(100%); }
-        body.unzipped #hang-tag { transform: translateY(100vh) rotate(20deg); }
+        body.unzipped .bag-panel.left { transform: rotateY(-110deg); }
+        body.unzipped .bag-panel.right { transform: rotateY(110deg); }
+        body.unzipped #hang-tag { transform: translateY(100vh) rotate(20deg); opacity: 0; }
         body.unzipped .intro-buttons { opacity: 0; pointer-events: none; }
         body.unzipped .cover-handle { transform: translateY(-250px); opacity: 0; }
 
-        /* --- GLOBAL OVERLAY (Moved outside cover) --- */
+        /* --- GLOBAL OVERLAY --- */
         #info-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); z-index: 999; display: flex; justify-content: center; align-items: center;
@@ -104,7 +105,7 @@
         }
         #info-overlay.active { opacity: 1; pointer-events: auto; }
         .info-card {
-            background: #fffdf0; padding: 40px; border-radius: 4px; max-width: 600px; width: 90%;
+            background: #fffdf0; padding: 40px; border-radius: 4px; max-width: 700px; width: 90%;
             text-align: center; position: relative; box-shadow: 0 25px 60px rgba(0,0,0,0.6);
             transform: scale(0.9); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -113,7 +114,7 @@
 
         /* --- MAIN CONTENT --- */
         .bag-wrapper {
-            position: relative; width: 95%; max-width: 1100px; height: 85vh;
+            position: relative; width: 95%; max-width: 1200px; height: 90vh;
             display: flex; justify-content: center; transform-style: preserve-3d;
             transform: rotateX(5deg); opacity: 0; transition: opacity 1s 0.8s;
         }
@@ -134,49 +135,51 @@
             box-shadow: inset 0 0 100px rgba(0,0,0,0.4), 0 30px 60px rgba(0,0,0,0.6);
             border: 8px solid var(--leather-light);
             outline: 2px dashed #a1887f; outline-offset: -12px;
-            perspective: 1500px; transform-style: preserve-3d; overflow: hidden; 
+            perspective: 2000px; transform-style: preserve-3d; overflow: hidden; 
         }
 
         .bag-contents { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; transform-style: preserve-3d; }
-        .bag-item { position: absolute; transition: transform 0.5s ease-out; }
+        .bag-item { position: absolute; transition: transform 0.1s linear; }
         .item-comb { bottom: 5%; left: 5%; width: 120px; transform: translateZ(-80px) rotate(15deg); filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3)); }
         .item-notebook { bottom: 8%; right: 5%; font-size: 100px; color: #795548; transform: translateZ(-150px) rotate(-10deg); text-shadow: 2px 4px 6px rgba(0,0,0,0.3); }
         .item-glasses { bottom: 12%; left: 18%; font-size: 50px; color: #3e2723; transform: translateZ(-40px) rotate(-5deg); opacity: 0.7; }
-        .item-bottle { 
-            bottom: 10%; right: 15%; width: 50px; height: 120px; background: rgba(46, 125, 50, 0.4); 
-            border: 2px solid rgba(46, 125, 50, 0.6); border-radius: 10px; transform: translateZ(-120px) rotate(5deg); backdrop-filter: blur(2px);
-        }
 
         /* --- SLIDE UI --- */
         .slide {
             position: absolute; top: 40px; left: 40px; right: 40px; bottom: 40px;
             background: #fdfbf7; padding: 40px; border-radius: 4px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            display: flex; flex-direction: column; justify-content: center;
-            transition: transform 1.2s cubic-bezier(0.25, 1, 0.35, 1), opacity 0.8s, filter 0.8s;
-            transform-origin: center 150%; backface-visibility: hidden;
+            display: flex; flex-direction: column; justify-content: flex-start;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center center; backface-visibility: hidden;
             background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.02) 100%);
-            overflow-y: auto;
+            overflow-y: auto; opacity: 0; pointer-events: none;
         }
 
-        h1, h2 { font-family: 'Playfair Display', serif; color: var(--leather); border-bottom: 3px solid var(--gold); padding-bottom: 10px; margin-bottom: 25px; display: inline-block; }
-        h1 { font-size: 3em; text-align: center; width: 100%; border: none; }
-        h2 { font-size: 2em; }
+        .slide.active { opacity: 1; pointer-events: auto; transform: translateZ(50px) rotateX(0deg); }
+        .slide.prev { opacity: 0; transform: translateY(-100%) rotateX(-20deg) scale(0.8); }
+        .slide.next { opacity: 0; transform: translateY(100%) rotateX(20deg) scale(0.8); }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        h1, h2 { font-family: 'Playfair Display', serif; color: var(--leather); border-bottom: 3px solid var(--gold); padding-bottom: 10px; margin-bottom: 25px; display: inline-block; }
+        h1 { font-size: 2.8em; text-align: center; width: 100%; border: none; }
+        h2 { font-size: 1.8em; }
+        h3 { font-family: 'Playfair Display', serif; color: var(--green); margin-bottom: 15px; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
 
         .paper-item {
             background: #fff; padding: 20px; border: 1px solid #ddd;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s;
+            position: relative;
         }
         .paper-item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
 
         .stat-card {
-            background: var(--leather); color: white; padding: 20px; border-radius: 8px; text-align: center;
+            background: var(--leather); color: white; padding: 15px; border-radius: 8px; text-align: center;
         }
-        .stat-val { font-size: 2.2em; font-weight: bold; color: var(--gold); display: block; margin-bottom: 5px; }
-        .stat-label { font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
+        .stat-val { font-size: 1.8em; font-weight: bold; color: var(--gold); display: block; margin-bottom: 5px; }
+        .stat-label { font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; line-height: 1.2; }
 
         /* --- NAVIGATION UI --- */
         .nav-controls {
@@ -191,29 +194,70 @@
             font-size: 1.5em; box-shadow: 0 10px 20px rgba(0,0,0,0.4); transition: 0.3s;
         }
         .nav-btn:hover { transform: scale(1.1); background: var(--leather-light); }
-        .nav-btn:active { transform: scale(0.9); }
 
-        /* --- RECEIPT --- */
-        .receipt {
-            font-family: 'Courier Prime', monospace; background: white; padding: 25px; border: 1px solid #ddd;
-            box-shadow: 5px 5px 0 rgba(0,0,0,0.05); position: relative;
+        /* --- TABLES --- */
+        table { width: 100%; border-collapse: collapse; font-size: 0.8em; margin-top: 10px; }
+        th, td { padding: 10px; border: 1px solid #eee; text-align: left; }
+        th { background: #f9f9f9; color: var(--leather); font-family: 'Playfair Display'; }
+
+        /* Cost Sheet Specific Styling */
+        .cost-sheet-table { font-size: 0.75em; }
+        .cost-sheet-table tr.section-header td { background: #efebe9; font-weight: bold; color: var(--leather); }
+        .cost-sheet-table tr.prime-row td { background: #fdfbf7; font-weight: bold; border-top: 2px solid var(--gold); }
+        .cost-sheet-table tr.final-row td { background: #e8f5e9; font-weight: bold; border-top: 2px solid var(--green); font-size: 1.1em; }
+
+        /* Winner Animation */
+        .winner-row { 
+            position: relative;
+            background: rgba(197, 160, 89, 0.1) !important;
+            animation: pulse-gold 2s infinite ease-in-out;
+            outline: 2px solid var(--gold);
         }
-        .receipt-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dotted #ccc; }
-        .receipt-total { border-top: 2px solid #000; font-weight: bold; margin-top: 10px; padding-top: 10px; }
+        .winner-row td:first-child::before {
+            content: '🏆';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+        }
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(197, 160, 89, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0); }
+        }
 
-        .data-point { background: #e8f5e9; padding: 10px; border-radius: 6px; border-left: 4px solid var(--green); margin-bottom: 10px; }
+        /* Warning Animation */
+        .warning-row {
+            background: rgba(211, 47, 47, 0.05) !important;
+            animation: pulse-danger 1.5s infinite ease-in-out;
+            color: var(--danger);
+            font-weight: bold;
+        }
+        @keyframes pulse-danger {
+            0% { background-color: rgba(211, 47, 47, 0.05); }
+            50% { background-color: rgba(211, 47, 47, 0.2); }
+            100% { background-color: rgba(211, 47, 47, 0.05); }
+        }
+
+        .data-point { background: #e8f5e9; padding: 10px; border-radius: 6px; border-left: 4px solid var(--green); margin-bottom: 10px; font-size: 0.85em; }
+
+        /* Workflow Steps */
+        .step-container { display: flex; gap: 10px; margin-top: 15px; }
+        .step { flex: 1; text-align: center; font-size: 0.7em; }
+        .step-icon { width: 40px; height: 40px; border-radius: 50%; background: var(--gold); color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 1.2em; }
 
         @media (max-width: 768px) {
             .grid-2, .grid-3 { grid-template-columns: 1fr; }
             .slide { top: 20px; left: 20px; right: 20px; bottom: 80px; padding: 20px; }
             h1 { font-size: 2em; }
-            .nav-controls { bottom: 15px; }
+            .nav-controls { bottom: 15px; gap: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- OVERLAY (Global) -->
+    <!-- OVERLAY -->
     <div id="info-overlay" onclick="hideInfo()">
         <div class="info-card" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="hideInfo()">&times;</button>
@@ -233,169 +277,318 @@
             <div class="tag-ring"></div>
             <h2 style="font-family: 'Playfair Display'; margin: 0; color: #3e2723; font-size: 1.5em; border:none;">JUTICA</h2>
             <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #2e7d32; margin-top: 5px;">3D ECO-LUXURY</p>
-            <div style="margin-top: 20px; font-size: 24px; color: #3e2723;"><i class="fa-solid fa-unlock"></i></div>
-            <p style="font-size: 9px; color: #777; margin-top: 5px;">UNZIP TO BEGIN</p>
+            <div style="margin-top: 25px; font-size: 32px; color: #c5a059;"><i class="fa-solid fa-gem"></i></div>
+            <p style="font-size: 9px; color: #777; margin-top: 10px; font-weight: bold;">TAP TO UNVEIL PROJECT</p>
         </div>
 
         <div class="intro-buttons">
-            <button class="cover-btn" onclick="showInfo('team')"><i class="fa-solid fa-users"></i> Team</button>
-            <button class="cover-btn" onclick="showInfo('project')"><i class="fa-solid fa-file-invoice"></i> Brief</button>
+            <button class="cover-btn" onclick="showInfo('team')"><i class="fa-solid fa-users"></i> Full Team</button>
+            <button class="cover-btn" onclick="showInfo('project')"><i class="fa-solid fa-file-contract"></i> LPU Brief</button>
         </div>
     </div>
 
     <!-- PRESENTATION LAYER -->
-    <div class="bag-wrapper">
+    <div class="bag-wrapper" id="bag-wrapper">
         <div class="bag-handle handle-left"></div>
         <div class="bag-handle handle-right"></div>
 
         <div class="slides-container" id="slides-container">
             
             <div class="bag-contents" id="parallax-contents">
-                <div class="bag-item item-comb">
+                <div class="bag-item item-comb" id="p-comb">
                     <svg viewBox="0 0 100 40" fill="#8d6e63"><path d="M5 10 L95 10 Q100 10 100 15 L100 35 Q100 40 95 40 L5 40 Q0 40 0 35 L0 15 Q0 10 5 10 Z" /><rect x="10" y="0" width="3" height="15" rx="1" /><rect x="20" y="0" width="3" height="15" rx="1" /><rect x="30" y="0" width="3" height="15" rx="1" /><rect x="40" y="0" width="3" height="15" rx="1" /><rect x="50" y="0" width="3" height="15" rx="1" /><rect x="60" y="0" width="3" height="15" rx="1" /><rect x="70" y="0" width="3" height="15" rx="1" /><rect x="80" y="0" width="3" height="15" rx="1" /></svg>
                 </div>
-                <i class="fa-solid fa-book bag-item item-notebook"></i>
-                <i class="fa-solid fa-glasses bag-item item-glasses"></i>
-                <div class="bag-item item-bottle"></div>
+                <i class="fa-solid fa-book-open bag-item item-notebook" id="p-book"></i>
+                <i class="fa-solid fa-glasses bag-item item-glasses" id="p-glasses"></i>
             </div>
 
             <!-- Slide 1: Introduction -->
-            <div class="slide">
-                <div style="border: 5px double var(--gold); padding: 40px; text-align: center;">
+            <div class="slide active">
+                <div style="border: 5px double var(--gold); padding: 40px; text-align: center; margin-top: auto; margin-bottom: auto;">
                     <h1 style="margin-bottom: 0;">JUTICA</h1>
-                    <div style="width: 60px; height: 3px; background: var(--green); margin: 15px auto;"></div>
-                    <p style="letter-spacing: 4px; text-transform: uppercase; color: var(--leather-light);">The Future of Sustainable Carry</p>
-                    <p style="margin-top: 25px; font-style: italic; color: #888;">Strategic Cost Management & Market Analysis</p>
+                    <div style="width: 80px; height: 3px; background: var(--green); margin: 20px auto;"></div>
+                    <p style="letter-spacing: 5px; text-transform: uppercase; color: var(--leather-light); font-weight: 700;">Sustainable Target Costing Analysis</p>
+                    <p style="margin-top: 30px; font-style: italic; color: #666; font-size: 0.9em;">Project Case Study: Medium Scale Jute Manufacturing</p>
+                    <div style="margin-top: 20px; font-family: 'Indie Flower'; color: var(--gold); font-size: 1.2em;">Presented to Dr. Sakshi Thakur</div>
                 </div>
             </div>
 
-            <!-- Slide 2: Strategic Goals -->
+            <!-- Slide 2: Market Survey (Q1) -->
             <div class="slide">
-                <h2>The Jutica Objective</h2>
-                <div class="grid-2">
-                    <div class="paper-item">
-                        <h3 style="color: var(--green); margin-bottom: 10px;"><i class="fa-solid fa-bullseye"></i> Target Costing</h3>
-                        <p>Our primary goal is to engineer a luxury-grade jute tote with a strict production cost ceiling of <strong>₹180</strong>.</p>
-                        <hr style="margin: 15px 0; border: none; border-top: 1px dashed #ddd;">
-                        <p style="font-size: 0.9em; color: #666;">This allows for a competitive selling price of ₹250 while maintaining healthy margins.</p>
-                    </div>
-                    <div class="paper-item">
-                        <h3 style="color: var(--leather); margin-bottom: 10px;"><i class="fa-solid fa-leaf"></i> Eco-Demographic</h3>
-                        <p>Targeting conscious consumers in urban hubs who prioritize durability over fast-fashion synthetics.</p>
-                        <div style="margin-top: 15px; display: flex; gap: 10px;">
-                            <span style="background: #efebe9; padding: 4px 10px; font-size: 0.7em; border-radius: 20px;">#SUSTAINABLE</span>
-                            <span style="background: #e8f5e9; padding: 4px 10px; font-size: 0.7em; border-radius: 20px;">#LUXURY</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 3: Industry Statistics -->
-            <div class="slide">
-                <h2>Global Jute Insights</h2>
-                <p style="margin-bottom: 20px; color: #666;">Jute is the "Golden Fiber," supporting millions of livelihoods globally.</p>
+                <h2>Q1: Market Survey Analysis</h2>
+                <p style="font-size: 0.8em; margin-bottom: 15px; font-style: italic;">Method: Google Form Questionnaire (Sample N = 58)</p>
                 <div class="grid-3">
                     <div class="stat-card">
-                        <span class="stat-val counter" data-target="4.5">0</span>
-                        <span class="stat-label">Million Farmers<br>(India & Bangladesh)</span>
+                        <span class="stat-val counter" data-target="70.7">0</span>
+                        <span class="stat-label">Prefer Medium<br>Size Bags (%)</span>
                     </div>
                     <div class="stat-card">
-                        <span class="stat-val counter" data-target="80">0</span>
-                        <span class="stat-label">% Global Jute<br>Produced in Bengal</span>
+                        <span class="stat-val counter" data-target="56.9">0</span>
+                        <span class="stat-label">Willing to Pay<br>₹200 - ₹300 (%)</span>
                     </div>
                     <div class="stat-card">
-                        <span class="stat-val counter" data-target="3.2">0</span>
-                        <span class="stat-label">Million Tons<br>Annual Production</span>
+                        <span class="stat-val counter" data-target="72.4">0</span>
+                        <span class="stat-label">Prioritize Eco-<br>Friendliness (%)</span>
                     </div>
                 </div>
-                <div class="paper-item" style="margin-top: 20px; border-left: 5px solid var(--gold);">
-                    <p style="font-size: 0.9em; line-height: 1.6;">
-                        <strong>Socio-Economic Impact:</strong> The jute industry in India provides direct employment to <strong>3.7 Lakh</strong> industrial workers and supports nearly <strong>40 Lakh</strong> farm families. Within this sector, women comprise approximately <strong>15%</strong> of the manufacturing workforce.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Slide 4: Detailed Cost Sheet -->
-            <div class="slide">
-                <h2>Production Cost Sheet</h2>
-                <div class="grid-2" style="align-items: start;">
-                    <div class="receipt">
-                        <p style="text-align: center; font-weight: bold; margin-bottom: 10px; border-bottom: 2px solid #000;">JUTICA COST SUMMARY</p>
-                        <div class="receipt-row"><span>Direct Materials (A)</span><span>₹<span class="counter" data-target="98.92">0</span></span></div>
-                        <div class="receipt-row"><span>Direct Labour (B)</span><span>₹<span class="counter" data-target="41.25">0</span></span></div>
-                        <div class="receipt-row" style="font-weight: bold;"><span>Prime Cost (A+B)</span><span>₹<span class="counter" data-target="140.17">0</span></span></div>
-                        <div class="receipt-row"><span>Factory Overheads (D)</span><span>₹<span class="counter" data-target="24.74">0</span></span></div>
-                        <div class="receipt-row"><span>Selling & Dist. (F)</span><span>₹<span class="counter" data-target="9.79">0</span></span></div>
-                        <div class="receipt-total receipt-row">
-                            <span>TOTAL COST OF SALES</span>
-                            <span>₹<span class="counter" data-target="174.70">0</span></span>
-                        </div>
-                        <button onclick="showInfo('costDetail')" class="cover-btn" style="width: 100%; margin-top: 15px; border-radius: 0; justify-content: center; position: relative; z-index: 10;">
-                            <i class="fa-solid fa-list-check"></i> VIEW DETAILED BREAKDOWN
-                        </button>
+                <div class="grid-2" style="margin-top: 20px;">
+                    <div class="paper-item">
+                        <h4 style="font-size: 0.85em;"><i class="fa-solid fa-palette"></i> Design Preference</h4>
+                        <ul style="font-size: 0.75em; padding-left: 20px; margin-top: 5px;">
+                            <li>36.2% Printed Designs (Quotes/Graphics)</li>
+                            <li>29.3% Traditional/Ethnic Styles</li>
+                        </ul>
                     </div>
-                    <div>
-                        <div class="stat-card" style="background: var(--green); margin-bottom: 20px;">
-                            <span class="stat-val">₹<span class="counter" data-target="75.30">0</span></span>
-                            <span class="stat-label">Net Profit Per Unit</span>
-                        </div>
-                        <div class="paper-item">
-                            <h4 style="margin-bottom: 10px;"><i class="fa-solid fa-money-bill-trend-up"></i> Strategic Pricing</h4>
-                            <p style="font-size: 0.85em;">Our total cost of sales is <strong>₹174.70</strong> per unit, which aligns perfectly with our target ceiling of <strong>₹180</strong>. This allows us to generate a <strong>30.1%</strong> profit margin at a selling price of ₹250.</p>
-                        </div>
+                    <div class="paper-item">
+                        <h4 style="font-size: 0.85em;"><i class="fa-solid fa-basket-shopping"></i> Use Purpose</h4>
+                        <ul style="font-size: 0.75em; padding-left: 20px; margin-top: 5px;">
+                            <li>46.6% Shopping & Groceries</li>
+                            <li>32.8% Daily Utility / College</li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide 5: Environmental Footprint -->
+            <!-- Slide 3: Competitor Analysis (Q1) -->
             <div class="slide">
-                <h2>Impact Analytics</h2>
+                <h2>Competitor Benchmarking</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Competitor</th>
+                            <th>Price (₹)</th>
+                            <th>Key Features</th>
+                            <th>Jutica Advantage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Like Style</strong> (Flipkart)</td>
+                            <td>₹398</td>
+                            <td>Beige Jute, Simple Geometric</td>
+                            <td>Cost Reduction (₹250) + Customization</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pragallya</strong> (Amazon)</td>
+                            <td>₹90/unit*</td>
+                            <td>Bulk Pack of 10, Return Gift style</td>
+                            <td>Higher GSM (300) + Water Resistance</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="data-point" style="margin-top: 20px;">
+                    <strong>Strategic Position:</strong> Jutica offers premium 300 GSM durability and LDPE lamination at a disruptive price point of ₹250, validated by 56.9% consumer acceptance in the ₹200-300 segment.
+                </div>
+            </div>
+
+            <!-- Slide 4: Target Cost Derivation (Q2) -->
+            <div class="slide">
+                <h2>Q2: Target Cost Derivation</h2>
                 <div class="grid-2">
-                    <div>
-                        <div class="data-point">
-                            <strong>CO2 Absorption:</strong> 1 hectare of jute consumes <strong>15 tons</strong> of CO2 and releases <strong>11 tons</strong> of Oxygen in 100 days.
+                    <div class="paper-item" style="border-top: 4px solid var(--gold);">
+                        <h3>Calculation</h3>
+                        <div class="receipt-row"><span>Selling Price (Survey-led)</span><span>₹250.00</span></div>
+                        <div class="receipt-row"><span>Desired Margin (30.12%)</span><span>(₹75.30)</span></div>
+                        <div class="receipt-total receipt-row" style="display: flex; justify-content: space-between; border-top: 2px solid #000; padding-top: 10px; font-weight: bold;">
+                            <span>TARGET COST</span>
+                            <span>₹174.70</span>
                         </div>
-                        <div class="data-point">
-                            <strong>Biodegradability:</strong> 100% compostable within <strong>2-3 months</strong> if buried in soil.
-                        </div>
+                        <p style="font-size: 0.7em; margin-top: 10px; color: #666;">*Target cost established based on industry standards for eco-luxury products.</p>
                     </div>
-                    <div class="paper-item" style="text-align: center;">
-                        <h4 style="margin-bottom: 15px;">vs. Synthetic (Plastic)</h4>
-                        <div style="font-size: 3em; color: #e74c3c;"><i class="fa-solid fa-scale-unbalanced"></i></div>
-                        <p style="font-weight: bold;">Jutica replaces approx.</p>
-                        <p style="font-size: 2em; color: var(--green); font-weight: bold;"><span class="counter" data-target="450">0</span></p>
-                        <p style="font-size: 0.8em; text-transform: uppercase;">Single-use bags over its lifespan</p>
+                    <div class="paper-item">
+                        <h3>Product Specs</h3>
+                        <ul style="font-size: 0.8em; line-height: 1.8;">
+                            <li><strong>Material:</strong> 300 GSM Laminated Jute</li>
+                            <li><strong>Dimensions:</strong> 13 x 15 inches (Medium)</li>
+                            <li><strong>Handles:</strong> 1.2m Jute/Cotton tape</li>
+                            <li><strong>Finish:</strong> Screen Printed with Durable Dyes</li>
+                            <li><strong>Protection:</strong> LDPE Water-Resistant Lining</li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide 6: Strategic Conclusion -->
-            <div class="slide" style="text-align: center;">
-                <h2 style="border: none;">Market Readiness</h2>
-                <div style="font-size: 5em; color: var(--gold); margin: 20px 0;"><i class="fa-solid fa-award"></i></div>
-                <p style="font-size: 1.4em; color: #555;">Final Verdict: <strong>VIABLE</strong></p>
-                <div style="max-width: 500px; margin: 30px auto; text-align: left;" class="paper-item">
-                    <ul style="list-style: none; line-height: 2;">
-                        <li><i class="fa-solid fa-check" style="color: green;"></i> Target Cost met (₹174.70 < ₹180)</li>
-                        <li><i class="fa-solid fa-check" style="color: green;"></i> 30.1% Operating Margin achieved</li>
-                        <li><i class="fa-solid fa-check" style="color: green;"></i> High Price Acceptance (72.4%)</li>
-                    </ul>
+            <!-- Slide 5: Manufacturing Process (Q2) -->
+            <div class="slide">
+                <h2>Manufacturing Workflow</h2>
+                <p style="font-size: 0.85em; margin-bottom: 20px;">Streamlined process to minimize waste and ensure cost conformity.</p>
+                <div class="step-container">
+                    <div class="step"><div class="step-icon"><i class="fa-solid fa-scissors"></i></div><strong>1. Cutting</strong><br>Precision fabric sizing (0.55m per bag)</div>
+                    <div class="step"><div class="step-icon"><i class="fa-solid fa-ruler-combined"></i></div><strong>2. Measuring</strong><br>Handle & zipper alignment</div>
+                    <div class="step"><div class="step-icon"><i class="fa-solid fa-layer-group"></i></div><strong>3. Lamination</strong><br>Applying LDPE water-resistant sheet</div>
+                    <div class="step"><div class="step-icon"><i class="fa-solid fa-print"></i></div><strong>4. Printing</strong><br>Graphics application via screen dye</div>
+                    <div class="step"><div class="step-icon"><i class="fa-solid fa-shirt"></i></div><strong>5. Stitching</strong><br>Final assembly & quality check</div>
                 </div>
-                <h3 style="font-family: 'Indie Flower'; color: #888; margin-top: 20px;">Sustainable • Scalable • Superior</h3>
+                <div style="margin-top: 30px; display: flex; gap: 10px; justify-content: center;">
+                    <div style="width: 100px; height: 80px; background: #eee; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; font-size: 0.6em; text-align: center;">CUTTING<br>PROOFS</div>
+                    <div style="width: 100px; height: 80px; background: #eee; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; font-size: 0.6em; text-align: center;">STITCHING<br>PROOFS</div>
+                    <div style="width: 100px; height: 80px; background: #eee; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; font-size: 0.6em; text-align: center;">PRINTING<br>PROOFS</div>
+                </div>
             </div>
 
-            <!-- Slide 7: Thank You -->
-            <div class="slide" style="text-align: center;">
-                <h1>THANK YOU</h1>
-                <p style="font-size: 1.2em; color: #555;">Empowering Change, One Bag at a Time.</p>
-                <div style="margin-top: 40px;">
-                    <i class="fa-solid fa-leaf" style="font-size: 3em; color: var(--green);"></i>
+            <!-- Slide 6: Supplier Benchmarking (Q3) -->
+            <div class="slide">
+                <h2>Q3: Supplier Comparison</h2>
+                <p style="font-size: 0.85em; margin-bottom: 10px;">Analysis of Raw Material (Jute Fabric) Sourcing:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Supplier</th>
+                            <th>Platform</th>
+                            <th>Price / Meter</th>
+                            <th>Cost / Bag (0.55m)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="winner-row">
+                            <td><strong>Home Buy Laminated</strong></td>
+                            <td>Amazon</td>
+                            <td>₹194</td>
+                            <td>₹106.70</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Delinger Natural</strong></td>
+                            <td>Amazon</td>
+                            <td>₹320</td>
+                            <td>₹176.00</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kwality Fab</strong></td>
+                            <td>IndiaMART</td>
+                            <td>₹115</td>
+                            <td>₹63.25</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="data-point" style="margin-top: 15px; border-left-color: var(--gold); background-color: #fdfaf0;">
+                    <i class="fa-solid fa-star" style="color: var(--gold); margin-right: 5px;"></i>
+                    <strong>Winning Choice:</strong> Selected <strong>Home Buy (Amazon)</strong> due to 51" width convenience and LDPE pre-lamination quality, despite IndiaMART's lower base price (higher MOQ/shipping risks).
                 </div>
+            </div>
+
+            <!-- Slide 7: Actual Cost Sheet (Detailed) -->
+            <div class="slide">
+                <h2>Detailed Cost Sheet</h2>
+                <div style="overflow-y: auto; flex: 1; border: 1px solid #eee;">
+                    <table class="cost-sheet-table">
+                        <thead>
+                            <tr>
+                                <th>Section / Particulars</th>
+                                <th>Amt/Unit (₹)</th>
+                                <th>Amt for 500 (₹)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="section-header"><td colspan="3">A. DIRECT MATERIALS</td></tr>
+                            <tr><td>Jute fabric (main body)</td><td>59.78</td><td>29,890.00</td></tr>
+                            <tr><td>Handles (cotton/jute rope)</td><td>5.98</td><td>2,990.00</td></tr>
+                            <tr><td>Zipper</td><td>4.27</td><td>2,135.00</td></tr>
+                            <tr><td>Lining cloth</td><td>6.83</td><td>3,415.00</td></tr>
+                            <tr><td>Buttons / fastener</td><td>2.57</td><td>1,285.00</td></tr>
+                            <tr><td>Decorative accessories</td><td>1.71</td><td>855.00</td></tr>
+                            <tr><td>Printing (screen – custom dyes)</td><td>12.82</td><td>6,410.00</td></tr>
+                            <tr><td>Carriage inward (material transport)</td><td>4.96</td><td>2,480.00</td></tr>
+                            
+                            <tr class="section-header"><td colspan="3">B. DIRECT LABOUR</td></tr>
+                            <tr><td>Fabric cutting</td><td>10.12</td><td>5,060.00</td></tr>
+                            <tr><td>Handle prep</td><td>5.79</td><td>2,895.00</td></tr>
+                            <tr><td>Lamination process</td><td>5.79</td><td>2,895.00</td></tr>
+                            <tr><td>Screen printing</td><td>5.06</td><td>2,530.00</td></tr>
+                            <tr><td>Final assembly & QC</td><td>14.49</td><td>7,245.00</td></tr>
+                            
+                            <tr class="prime-row"><td>C. PRIME COST (A + B)</td><td>140.17</td><td>70,085.00</td></tr>
+                            
+                            <tr class="section-header"><td colspan="3">D. FACTORY OVERHEAD</td></tr>
+                            <tr><td>Electricity & machine usage</td><td>14.84</td><td>7,420.00</td></tr>
+                            <tr><td>Indirect labour (supervision)</td><td>4.95</td><td>2,475.00</td></tr>
+                            <tr><td>Factory rent & rates</td><td>3.30</td><td>1,650.00</td></tr>
+                            <tr><td>Small tools & consumables</td><td>1.65</td><td>825.00</td></tr>
+                            <tr class="prime-row"><td>Total Factory Overhead (D)</td><td>24.74</td><td>12,370.00</td></tr>
+                            
+                            <tr class="section-header"><td colspan="3">F. SELLING & DISTRIBUTION</td></tr>
+                            <tr><td>Packaging</td><td>6.00</td><td>3,000.00</td></tr>
+                            <tr><td>Transport / marketing</td><td>3.79</td><td>1,895.00</td></tr>
+                            <tr class="prime-row"><td>Total Selling & Distribution (F)</td><td>9.79</td><td>4,895.00</td></tr>
+                            
+                            <tr class="final-row"><td>G. TOTAL COST OF SALES (C + D + F)</td><td>174.70</td><td>87,350.00</td></tr>
+                            <tr class="prime-row"><td>H. PROFIT PER BAG</td><td>75.30</td><td>37,650.00</td></tr>
+                            <tr class="prime-row" style="background: var(--leather); color: white;"><td>I. SELLING PRICE</td><td>250.00</td><td>1,25,000.00</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Slide 8: Variance Analysis (Q4) -->
+            <div class="slide">
+                <h2>Q4: Variance Analysis</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cost Element</th>
+                            <th>Standard (₹)</th>
+                            <th>Actual (₹)</th>
+                            <th>Variance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Direct Materials</td>
+                            <td>₹168.00</td>
+                            <td>₹154.70</td>
+                            <td style="color: var(--green);">+₹13.30 (F)</td>
+                        </tr>
+                        <tr class="warning-row">
+                            <td>Labor & Overhead</td>
+                            <td>₹12.00</td>
+                            <td>₹20.00</td>
+                            <td>-₹8.00 (A)</td>
+                        </tr>
+                        <tr style="font-weight: bold; border-top: 2px solid #000;">
+                            <td>Total Cost Per Unit</td>
+                            <td>₹180.00</td>
+                            <td>₹174.70</td>
+                            <td style="color: var(--green);">+₹5.30 (F)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="paper-item" style="margin-top: 20px; border-left: 5px solid var(--danger);">
+                    <h4 style="color: var(--danger); font-size: 0.9em;"><i class="fa-solid fa-triangle-exclamation"></i> Critical Variance Insight</h4>
+                    <p style="font-size: 0.8em; margin-top: 5px;">The <strong>Unfavourable Variance of ₹8.00</strong> in Labor & Overhead indicates inefficiency in manual stitching or higher-than-expected supervision time. However, this is successfully offset by the <strong>₹13.30 Favourable Material Variance</strong>.</p>
+                </div>
+            </div>
+
+            <!-- Slide 9: Strategic Cost Management (Q4) -->
+            <div class="slide">
+                <h2>Strategic Recommendations</h2>
+                <div class="grid-2">
+                    <div class="paper-item" style="background: #fff8e1;">
+                        <h3 style="font-size: 1.1em;"><i class="fa-solid fa-handshake"></i> Bulk Purchasing</h3>
+                        <p style="font-size: 0.8em;">Negotiate directly with mills for Jute fabric rolls (100m+) to reduce per-meter cost by an additional 15-20%.</p>
+                    </div>
+                    <div class="paper-item" style="background: #e1f5fe;">
+                        <h3 style="font-size: 1.1em;"><i class="fa-solid fa-microchip"></i> Process Improvement</h3>
+                        <p style="font-size: 0.8em;">Adopting standardized cutting patterns and multi-task training for labor to optimize stitching cycles per hour.</p>
+                    </div>
+                </div>
+                <div class="data-point" style="margin-top: 20px; text-align: center;">
+                    <strong>Future Scalability:</strong> Transitioning from 500 units to 5,000 units will trigger economies of scale, potentially lowering the total cost to ₹160 per bag.
+                </div>
+            </div>
+
+            <!-- Slide 10: Conclusion -->
+            <div class="slide" style="text-align: center;">
+                <h2 style="border: none;">Market Readiness Verdict</h2>
+                <div style="font-size: 4em; color: var(--gold); margin: 10px 0;"><i class="fa-solid fa-circle-check"></i></div>
+                <p style="font-size: 1.2em; font-weight: bold; color: var(--green);">VIABLE & SUSTAINABLE</p>
+                <div class="paper-item" style="margin-top: 20px; text-align: left;">
+                    <p style="font-size: 0.85em; line-height: 1.6;">JUTICA successfully demonstrates that through <strong>Target Costing</strong> and <strong>Supplier Benchmarking</strong>, it is possible to produce a high-margin (30.12%) eco-luxury product that meets stringent consumer price sensitivity (₹250) without compromising on 300 GSM quality.</p>
+                </div>
+                <h3 style="font-family: 'Indie Flower'; color: #888; margin-top: 20px;">Empowering Change, One Bag at a Time.</h3>
             </div>
 
         </div>
 
-        <!-- NAVIGATION CONTROLS -->
+        <!-- NAVIGATION -->
         <div class="nav-controls">
             <button class="nav-btn" onclick="previousSlide()"><i class="fa-solid fa-chevron-left"></i></button>
             <button class="nav-btn" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
@@ -403,59 +596,29 @@
     </div>
 
     <script>
-        let currentSlide = 0;
+        let currentSlideIndex = 0;
         const slides = document.querySelectorAll('.slide');
         
-        // --- Popups Content ---
         const contentData = {
             team: `
-                <h3 style="color:var(--leather); border-bottom:2px solid var(--gold); padding-bottom:10px; margin-bottom:20px;">TEAM ROSTER</h3>
+                <h3 style="color:var(--leather); border-bottom:2px solid var(--gold); padding-bottom:10px; margin-bottom:20px;">TEAM ROSTER (GROUP 5)</h3>
                 <div style="text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="paper-item"><strong>Shrutika Thakur</strong><br><small>12520957</small></div>
                     <div class="paper-item"><strong>Esha Thakur</strong><br><small>12525589</small></div>
                     <div class="paper-item"><strong>Satyam Jawla</strong><br><small>12508323</small></div>
-                    <div class="paper-item"><strong>Muhammad Shinaz</strong><br><small>12523581</small></div>
+                    <div class="paper-item"><strong>Muhammad Shinaz K P</strong><br><small>12523581</small></div>
                     <div class="paper-item"><strong>Riya</strong><br><small>12518595</small></div>
                 </div>
+                <p style="margin-top:15px; font-size: 0.8em; color: #888;">Section: Q2555 | CA-1 Academic Task</p>
             `,
             project: `
-                <h3 style="color:var(--green); margin-bottom: 20px;">PROJECT SPECIFICATIONS</h3>
-                <div style="font-family: 'Courier New', monospace; background: white; padding: 20px; border: 1px dashed #3e2723; text-align: left;">
-                    <p><strong>SUBJECT:</strong> Financial Reporting II</p>
+                <h3 style="color:var(--green); margin-bottom: 20px;">LPU ACADEMIC BRIEF</h3>
+                <div style="font-family: 'Courier New', monospace; background: white; padding: 20px; border: 1px dashed #3e2723; text-align: left; font-size: 0.85em;">
+                    <p><strong>COURSE:</strong> Financial Reporting Statement & Analysis II</p>
                     <p><strong>CODE:</strong> ACCM507</p>
+                    <p><strong>OBJECTIVE:</strong> Apply target costing techniques in planning and controlling hypothetical manufacturing costs.</p>
                     <p><strong>EVALUATOR:</strong> Dr. Sakshi Thakur</p>
-                    <p><strong>SECTION:</strong> Q2555</p>
-                    <p><strong>THEME:</strong> Cost Optimization & Target Costing</p>
-                </div>
-            `,
-            costDetail: `
-                <h3 style="color:var(--leather); border-bottom:2px solid var(--gold); padding-bottom:10px; margin-bottom:20px;">DETAILED COST MANIFEST</h3>
-                <div style="text-align: left; font-family: 'Courier Prime', monospace; font-size: 0.85em; max-height: 400px; overflow-y: auto; background: #fff; padding: 15px; border: 1px solid #ddd; line-height: 1.6;">
-                    <p style="font-weight: bold; background: #eee; padding: 5px; margin-bottom: 5px;">A. DIRECT MATERIALS</p>
-                    <div style="display:flex; justify-content:space-between;"><span>- Jute Fabric (Main)</span><span>59.78</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>- Handles (Cotton Rope)</span><span>5.98</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>- Zipper</span><span>4.27</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>- Lining Cloth</span><span>6.83</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>- Buttons & Fasteners</span><span>2.57</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>- Printing (Dyes)</span><span>12.82</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>- Carriage Inward</span><span>4.96</span></div>
-                    
-                    <p style="font-weight: bold; background: #eee; padding: 5px; margin-top: 15px; margin-bottom: 5px;">B. DIRECT LABOUR</p>
-                    <div style="display:flex; justify-content:space-between;"><span>- Fabric Cutting</span><span>10.12</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>- Handle Prep</span><span>5.79</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>- Lamination</span><span>5.79</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>- Final Assembly & QC</span><span>14.49</span></div>
-                    
-                    <p style="font-weight: bold; background: #eee; padding: 5px; margin-top: 15px; margin-bottom: 5px;">D. FACTORY OVERHEADS</p>
-                    <div style="display:flex; justify-content:space-between;"><span>- Machine Power</span><span>14.84</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>- Supervision</span><span>4.95</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>- Factory Rent Share</span><span>3.30</span></div>
-
-                    <p style="font-weight: bold; background: #eee; padding: 5px; margin-top: 15px; margin-bottom: 5px;">F. SELLING & DIST.</p>
-                    <div style="display:flex; justify-content:space-between;"><span>- Packaging</span><span>6.00</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>- Marketing Transport</span><span>3.79</span></div>
-                    <hr style="margin: 15px 0; border: 1px solid #000;">
-                    <div style="display:flex; justify-content:space-between; font-weight: bold; font-size: 1.1em;"><span>FINAL COST OF SALES</span><span>₹174.70</span></div>
+                    <p><strong>TASK:</strong> Design a unique product, determine target price via research, analyze competitors, and verify cost conformity.</p>
                 </div>
             `
         };
@@ -476,12 +639,39 @@
         function openBag() {
             document.body.classList.add('unzipped');
             setTimeout(() => {
-                document.getElementById('bag-cover').style.visibility = 'hidden';
-                updateSlides(); 
+                document.getElementById('bag-cover').style.display = 'none';
+                updateSlides();
             }, 1200);
         }
 
-        // --- Counter Animation ---
+        function updateSlides() {
+            slides.forEach((slide, idx) => {
+                slide.classList.remove('active', 'prev', 'next');
+                if (idx === currentSlideIndex) {
+                    slide.classList.add('active');
+                    animateCounters(slide);
+                } else if (idx < currentSlideIndex) {
+                    slide.classList.add('prev');
+                } else {
+                    slide.classList.add('next');
+                }
+            });
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < slides.length - 1) {
+                currentSlideIndex++;
+                updateSlides();
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                updateSlides();
+            }
+        }
+
         function animateCounters(slide) {
             const counters = slide.querySelectorAll('.counter');
             counters.forEach(counter => {
@@ -489,85 +679,36 @@
                 const duration = 1200;
                 let startTime = null;
 
-                const step = (currentTime) => {
-                    if (!startTime) startTime = currentTime;
-                    const progress = Math.min((currentTime - startTime) / duration, 1);
-                    const currentVal = progress * target;
-                    
-                    if (Number.isInteger(target)) {
-                        counter.innerText = Math.floor(currentVal);
-                    } else {
-                        counter.innerText = currentVal.toFixed(2);
-                    }
-
-                    if (progress < 1) {
-                        requestAnimationFrame(step);
-                    } else {
-                        counter.innerText = target;
-                    }
-                };
-                requestAnimationFrame(step);
-            });
-        }
-
-        function updateSlides() {
-            slides.forEach((slide, index) => {
-                const diff = index - currentSlide;
-                
-                if (diff === 0) {
-                    slide.style.opacity = 1;
-                    slide.style.transform = `translate3d(0, 0, 0) rotateX(0deg)`;
-                    slide.style.zIndex = 100;
-                    slide.style.filter = "brightness(1)";
-                    slide.style.pointerEvents = "auto";
-                    
-                    if (!slide.classList.contains('visited')) {
-                        animateCounters(slide);
-                        slide.classList.add('visited');
-                    }
-                    
-                    // Interaction handling
-                    slide.onmousemove = (e) => {
-                        const rect = slide.getBoundingClientRect();
-                        const x = (e.clientX - rect.left) / rect.width - 0.5;
-                        const y = (e.clientY - rect.top) / rect.height - 0.5;
-                        slide.style.transform = `translate3d(0, 0, 10px) rotateY(${x * 6}deg) rotateX(${y * -6}deg)`;
-                    };
-                } else if (diff > 0) {
-                    slide.style.opacity = Math.max(0, 1 - (diff * 0.4));
-                    slide.style.transform = `translate3d(0, ${100 + (diff * 40)}px, ${-200 - (diff * 80)}px) rotateX(-15deg)`;
-                    slide.style.zIndex = 100 - diff;
-                    slide.style.filter = `blur(${diff * 3}px)`;
-                    slide.style.pointerEvents = "none";
-                    slide.classList.remove('visited');
-                    slide.onmousemove = null;
-                } else {
-                    slide.style.opacity = 0;
-                    slide.style.transform = `translate3d(0, -120vh, 100px) rotateX(30deg)`;
-                    slide.style.zIndex = 0;
-                    slide.style.pointerEvents = "none";
-                    slide.classList.remove('visited');
-                    slide.onmousemove = null;
+                function step(timestamp) {
+                    if (!startTime) startTime = timestamp;
+                    const progress = Math.min((timestamp - startTime) / duration, 1);
+                    const val = progress * target;
+                    counter.innerText = Number.isInteger(target) ? Math.floor(val) : val.toFixed(1);
+                    if (progress < 1) window.requestAnimationFrame(step);
+                    else counter.innerText = target;
                 }
-            });
-
-            // Parallax background items
-            const items = document.querySelectorAll('.bag-item');
-            items.forEach((item, i) => {
-                item.style.transform = `translateZ(${-50 - (i*30)}px) translateY(${currentSlide * 10}px)`;
+                window.requestAnimationFrame(step);
             });
         }
 
-        function nextSlide() { if (currentSlide < slides.length - 1) { currentSlide++; updateSlides(); } }
-        function previousSlide() { if (currentSlide > 0) { currentSlide--; updateSlides(); } }
-
-        document.addEventListener('keydown', e => {
-            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
-            if (e.key === 'ArrowLeft') previousSlide();
+        // Parallax Effect
+        window.addEventListener('mousemove', (e) => {
+            if (!document.body.classList.contains('unzipped')) return;
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            const wrapper = document.getElementById('bag-wrapper');
+            wrapper.style.transform = `rotateX(${5 - y * 0.3}deg) rotateY(${x * 0.3}deg)`;
+            document.getElementById('p-comb').style.transform = `translate3d(${x * 1.5}px, ${y * 1.5}px, -80px) rotate(15deg)`;
+            document.getElementById('p-book').style.transform = `translate3d(${x * -2}px, ${y * -2}px, -150px) rotate(-10deg)`;
+            document.getElementById('p-glasses').style.transform = `translate3d(${x * 1}px, ${y * 1}px, -40px) rotate(-5deg)`;
         });
 
-        // Initialize state
-        updateSlides();
+        // Keyboard Support
+        window.addEventListener('keydown', (e) => {
+            if (!document.body.classList.contains('unzipped')) return;
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') previousSlide();
+        });
     </script>
 </body>
 </html>
