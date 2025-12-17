@@ -165,35 +165,19 @@
         h2 { font-size: 1.8em; }
         h3 { font-family: 'Playfair Display', serif; color: var(--green); margin-bottom: 15px; }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-
-        .paper-item {
-            background: #fff; padding: 20px; border: 1px solid #ddd;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s;
-            position: relative;
+        /* --- HIGHLIGHT BADGES --- */
+        .method-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 0.65em;
+            text-transform: uppercase;
+            font-weight: 900;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
         }
-        .paper-item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-
-        .stat-card {
-            background: var(--leather); color: white; padding: 15px; border-radius: 8px; text-align: center;
-        }
-        .stat-val { font-size: 1.8em; font-weight: bold; color: var(--gold); display: block; margin-bottom: 5px; }
-        .stat-label { font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; line-height: 1.2; }
-
-        /* --- NAVIGATION UI --- */
-        .nav-controls {
-            position: fixed; bottom: 30px; display: flex; gap: 40px; z-index: 300;
-            opacity: 0; pointer-events: none; transition: 0.5s;
-        }
-        body.unzipped .nav-controls { opacity: 1; pointer-events: auto; }
-
-        .nav-btn {
-            width: 60px; height: 60px; border-radius: 50%; background: var(--leather); color: var(--gold);
-            border: 3px solid var(--gold); cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 1.5em; box-shadow: 0 10px 20px rgba(0,0,0,0.4); transition: 0.3s;
-        }
-        .nav-btn:hover { transform: scale(1.1); background: var(--leather-light); }
+        .badge-ve { background: var(--gold); color: white; border: 1px solid var(--leather); }
+        .badge-kaizen { background: var(--green); color: white; }
 
         /* --- TABLES --- */
         table { width: 100%; border-collapse: collapse; font-size: 0.8em; margin-top: 10px; }
@@ -229,23 +213,43 @@
 
         /* Warning Animation */
         .warning-row {
-            background: rgba(211, 47, 47, 0.05) !important;
+            background: rgba(211, 47, 47, 0.1) !important;
             animation: pulse-danger 1.5s infinite ease-in-out;
             color: var(--danger);
             font-weight: bold;
         }
         @keyframes pulse-danger {
-            0% { background-color: rgba(211, 47, 47, 0.05); }
-            50% { background-color: rgba(211, 47, 47, 0.2); }
-            100% { background-color: rgba(211, 47, 47, 0.05); }
+            0% { background-color: rgba(211, 47, 47, 0.1); }
+            50% { background-color: rgba(211, 47, 47, 0.3); }
+            100% { background-color: rgba(211, 47, 47, 0.1); }
         }
 
-        .data-point { background: #e8f5e9; padding: 10px; border-radius: 6px; border-left: 4px solid var(--green); margin-bottom: 10px; font-size: 0.85em; }
+        /* Navigation Buttons */
+        .nav-controls {
+            position: fixed; bottom: 30px; display: flex; gap: 40px; z-index: 300;
+            opacity: 0; pointer-events: none; transition: 0.5s;
+        }
+        body.unzipped .nav-controls { opacity: 1; pointer-events: auto; }
 
-        /* Workflow Steps */
-        .step-container { display: flex; gap: 10px; margin-top: 15px; }
-        .step { flex: 1; text-align: center; font-size: 0.7em; }
-        .step-icon { width: 40px; height: 40px; border-radius: 50%; background: var(--gold); color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 1.2em; }
+        .nav-btn {
+            width: 60px; height: 60px; border-radius: 50%; background: var(--leather); color: var(--gold);
+            border: 3px solid var(--gold); cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5em; box-shadow: 0 10px 20px rgba(0,0,0,0.4); transition: 0.3s;
+        }
+        .nav-btn:hover { transform: scale(1.1); background: var(--leather-light); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+
+        .paper-item {
+            background: #fff; padding: 15px; border: 1px solid #ddd;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s;
+        }
+        .stat-card {
+            background: var(--leather); color: white; padding: 15px; border-radius: 8px; text-align: center;
+        }
+        .stat-val { font-size: 1.8em; font-weight: bold; color: var(--gold); display: block; }
+        .stat-label { font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
 
         @media (max-width: 768px) {
             .grid-2, .grid-3 { grid-template-columns: 1fr; }
@@ -313,170 +317,77 @@
                 </div>
             </div>
 
-            <!-- Slide 2: Market Survey (Q1) -->
+            <!-- Slide 2: Market Survey -->
             <div class="slide">
-                <h2>Q1: Market Survey Analysis</h2>
-                <p style="font-size: 0.8em; margin-bottom: 15px; font-style: italic;">Method: Google Form Questionnaire (Sample N = 58)</p>
+                <div class="method-badge badge-ve">Value Engineering: Phase I</div>
+                <h2>Market Survey Analysis</h2>
                 <div class="grid-3">
                     <div class="stat-card">
                         <span class="stat-val counter" data-target="70.7">0</span>
-                        <span class="stat-label">Prefer Medium<br>Size Bags (%)</span>
+                        <span class="stat-label">Prefer Medium Size</span>
                     </div>
                     <div class="stat-card">
                         <span class="stat-val counter" data-target="56.9">0</span>
-                        <span class="stat-label">Willing to Pay<br>₹200 - ₹300 (%)</span>
+                        <span class="stat-label">Willing to Pay ₹250</span>
                     </div>
                     <div class="stat-card">
                         <span class="stat-val counter" data-target="72.4">0</span>
-                        <span class="stat-label">Prioritize Eco-<br>Friendliness (%)</span>
+                        <span class="stat-label">Eco-Conscious</span>
                     </div>
                 </div>
-                <div class="grid-2" style="margin-top: 20px;">
-                    <div class="paper-item">
-                        <h4 style="font-size: 0.85em;"><i class="fa-solid fa-palette"></i> Design Preference</h4>
-                        <ul style="font-size: 0.75em; padding-left: 20px; margin-top: 5px;">
-                            <li>36.2% Printed Designs (Quotes/Graphics)</li>
-                            <li>29.3% Traditional/Ethnic Styles</li>
-                        </ul>
-                    </div>
-                    <div class="paper-item">
-                        <h4 style="font-size: 0.85em;"><i class="fa-solid fa-basket-shopping"></i> Use Purpose</h4>
-                        <ul style="font-size: 0.75em; padding-left: 20px; margin-top: 5px;">
-                            <li>46.6% Shopping & Groceries</li>
-                            <li>32.8% Daily Utility / College</li>
-                        </ul>
-                    </div>
+                <div class="paper-item" style="margin-top: 20px;">
+                    <p style="font-size: 0.85em;">By aligning our design with the "Medium Size" preference (Value Engineering), we ensure maximum customer satisfaction at the target price.</p>
                 </div>
             </div>
 
-            <!-- Slide 3: Competitor Analysis (Q1) -->
+            <!-- Slide 3: Target Costing -->
             <div class="slide">
-                <h2>Competitor Benchmarking</h2>
+                <div class="method-badge badge-ve">Value Engineering & Target Costing</div>
+                <h2>Target Cost Derivation</h2>
+                <div class="paper-item">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--gold); padding: 10px 0;">
+                        <span>Target Selling Price</span><span>₹250.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+                        <span>Desired Profit (30.12%)</span><span>(₹75.30)</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-weight: bold; background: var(--cream); padding: 10px;">
+                        <span>TARGET COST</span><span>₹174.70</span>
+                    </div>
+                </div>
+                <p style="font-size: 0.75em; margin-top: 15px; font-style: italic;">We applied Value Engineering to strip away non-essential features while maintaining 300 GSM durability.</p>
+            </div>
+
+            <!-- Slide 4: Supplier Benchmarking -->
+            <div class="slide">
+                <h2>Supplier Selection</h2>
                 <table>
                     <thead>
-                        <tr>
-                            <th>Competitor</th>
-                            <th>Price (₹)</th>
-                            <th>Key Features</th>
-                            <th>Jutica Advantage</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Like Style</strong> (Flipkart)</td>
-                            <td>₹398</td>
-                            <td>Beige Jute, Simple Geometric</td>
-                            <td>Cost Reduction (₹250) + Customization</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Pragallya</strong> (Amazon)</td>
-                            <td>₹90/unit*</td>
-                            <td>Bulk Pack of 10, Return Gift style</td>
-                            <td>Higher GSM (300) + Water Resistance</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="data-point" style="margin-top: 20px;">
-                    <strong>Strategic Position:</strong> Jutica offers premium 300 GSM durability and LDPE lamination at a disruptive price point of ₹250, validated by 56.9% consumer acceptance in the ₹200-300 segment.
-                </div>
-            </div>
-
-            <!-- Slide 4: Target Cost Derivation (Q2) -->
-            <div class="slide">
-                <h2>Q2: Target Cost Derivation</h2>
-                <div class="grid-2">
-                    <div class="paper-item" style="border-top: 4px solid var(--gold);">
-                        <h3>Calculation</h3>
-                        <div class="receipt-row"><span>Selling Price (Survey-led)</span><span>₹250.00</span></div>
-                        <div class="receipt-row"><span>Desired Margin (30.12%)</span><span>(₹75.30)</span></div>
-                        <div class="receipt-total receipt-row" style="display: flex; justify-content: space-between; border-top: 2px solid #000; padding-top: 10px; font-weight: bold;">
-                            <span>TARGET COST</span>
-                            <span>₹174.70</span>
-                        </div>
-                        <p style="font-size: 0.7em; margin-top: 10px; color: #666;">*Target cost established based on industry standards for eco-luxury products.</p>
-                    </div>
-                    <div class="paper-item">
-                        <h3>Product Specs</h3>
-                        <ul style="font-size: 0.8em; line-height: 1.8;">
-                            <li><strong>Material:</strong> 300 GSM Laminated Jute</li>
-                            <li><strong>Dimensions:</strong> 13 x 15 inches (Medium)</li>
-                            <li><strong>Handles:</strong> 1.2m Jute/Cotton tape</li>
-                            <li><strong>Finish:</strong> Screen Printed with Durable Dyes</li>
-                            <li><strong>Protection:</strong> LDPE Water-Resistant Lining</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 5: Manufacturing Process (Q2) -->
-            <div class="slide">
-                <h2>Manufacturing Workflow</h2>
-                <p style="font-size: 0.85em; margin-bottom: 20px;">Streamlined process to minimize waste and ensure cost conformity.</p>
-                <div class="step-container">
-                    <div class="step"><div class="step-icon"><i class="fa-solid fa-scissors"></i></div><strong>1. Cutting</strong><br>Precision fabric sizing (0.55m per bag)</div>
-                    <div class="step"><div class="step-icon"><i class="fa-solid fa-ruler-combined"></i></div><strong>2. Measuring</strong><br>Handle & zipper alignment</div>
-                    <div class="step"><div class="step-icon"><i class="fa-solid fa-layer-group"></i></div><strong>3. Lamination</strong><br>Applying LDPE water-resistant sheet</div>
-                    <div class="step"><div class="step-icon"><i class="fa-solid fa-print"></i></div><strong>4. Printing</strong><br>Graphics application via screen dye</div>
-                    <div class="step"><div class="step-icon"><i class="fa-solid fa-shirt"></i></div><strong>5. Stitching</strong><br>Final assembly & quality check</div>
-                </div>
-                <div style="margin-top: 30px; display: flex; gap: 10px; justify-content: center;">
-                    <div style="width: 100px; height: 80px; background: #eee; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; font-size: 0.6em; text-align: center;">CUTTING<br>PROOFS</div>
-                    <div style="width: 100px; height: 80px; background: #eee; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; font-size: 0.6em; text-align: center;">STITCHING<br>PROOFS</div>
-                    <div style="width: 100px; height: 80px; background: #eee; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; font-size: 0.6em; text-align: center;">PRINTING<br>PROOFS</div>
-                </div>
-            </div>
-
-            <!-- Slide 6: Supplier Benchmarking (Q3) -->
-            <div class="slide">
-                <h2>Q3: Supplier Comparison</h2>
-                <p style="font-size: 0.85em; margin-bottom: 10px;">Analysis of Raw Material (Jute Fabric) Sourcing:</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Supplier</th>
-                            <th>Platform</th>
-                            <th>Price / Meter</th>
-                            <th>Cost / Bag (0.55m)</th>
-                        </tr>
+                        <tr><th>Supplier</th><th>Price/m</th><th>Width</th></tr>
                     </thead>
                     <tbody>
                         <tr class="winner-row">
-                            <td><strong>Home Buy Laminated</strong></td>
-                            <td>Amazon</td>
+                            <td><strong>Home Buy (Amazon)</strong></td>
                             <td>₹194</td>
-                            <td>₹106.70</td>
+                            <td>51" Width</td>
                         </tr>
-                        <tr>
-                            <td><strong>Delinger Natural</strong></td>
-                            <td>Amazon</td>
-                            <td>₹320</td>
-                            <td>₹176.00</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Kwality Fab</strong></td>
-                            <td>IndiaMART</td>
-                            <td>₹115</td>
-                            <td>₹63.25</td>
-                        </tr>
+                        <tr><td>Delinger Natural</td><td>₹320</td><td>51" Width</td></tr>
+                        <tr><td>Kwality Fab</td><td>₹115</td><td>40" Width</td></tr>
                     </tbody>
                 </table>
-                <div class="data-point" style="margin-top: 15px; border-left-color: var(--gold); background-color: #fdfaf0;">
-                    <i class="fa-solid fa-star" style="color: var(--gold); margin-right: 5px;"></i>
-                    <strong>Winning Choice:</strong> Selected <strong>Home Buy (Amazon)</strong> due to 51" width convenience and LDPE pre-lamination quality, despite IndiaMART's lower base price (higher MOQ/shipping risks).
+                <div class="paper-item" style="margin-top: 20px; border-left: 5px solid var(--gold);">
+                    <i class="fa-solid fa-trophy" style="color: var(--gold); margin-right: 10px;"></i>
+                    <strong>Winning Choice:</strong> Selected Home Buy (Amazon) due to 51" width convenience and LDPE pre-lamination, mitigating MOQ and shipping risks.
                 </div>
             </div>
 
-            <!-- Slide 7: Actual Cost Sheet (Detailed) -->
+            <!-- Slide 5: FULL COST SHEET (Exactly from doc) -->
             <div class="slide">
-                <h2>Detailed Cost Sheet</h2>
-                <div style="overflow-y: auto; flex: 1; border: 1px solid #eee;">
+                <h2>JUTICA – Detailed Cost Sheet</h2>
+                <div style="overflow-y: auto; flex: 1;">
                     <table class="cost-sheet-table">
                         <thead>
-                            <tr>
-                                <th>Section / Particulars</th>
-                                <th>Amt/Unit (₹)</th>
-                                <th>Amt for 500 (₹)</th>
-                            </tr>
+                            <tr><th>Component / Particulars</th><th>Amt/Unit (₹)</th><th>Total (500)</th></tr>
                         </thead>
                         <tbody>
                             <tr class="section-header"><td colspan="3">A. DIRECT MATERIALS</td></tr>
@@ -487,30 +398,25 @@
                             <tr><td>Buttons / fastener</td><td>2.57</td><td>1,285.00</td></tr>
                             <tr><td>Decorative accessories</td><td>1.71</td><td>855.00</td></tr>
                             <tr><td>Printing (screen – custom dyes)</td><td>12.82</td><td>6,410.00</td></tr>
-                            <tr><td>Carriage inward (material transport)</td><td>4.96</td><td>2,480.00</td></tr>
-                            
+                            <tr><td>Carriage inward (transport)</td><td>4.96</td><td>2,480.00</td></tr>
                             <tr class="section-header"><td colspan="3">B. DIRECT LABOUR</td></tr>
                             <tr><td>Fabric cutting</td><td>10.12</td><td>5,060.00</td></tr>
                             <tr><td>Handle prep</td><td>5.79</td><td>2,895.00</td></tr>
                             <tr><td>Lamination process</td><td>5.79</td><td>2,895.00</td></tr>
                             <tr><td>Screen printing</td><td>5.06</td><td>2,530.00</td></tr>
                             <tr><td>Final assembly & QC</td><td>14.49</td><td>7,245.00</td></tr>
-                            
-                            <tr class="prime-row"><td>C. PRIME COST (A + B)</td><td>140.17</td><td>70,085.00</td></tr>
-                            
+                            <tr class="prime-row"><td>C. PRIME COST</td><td>140.17</td><td>70,085.00</td></tr>
                             <tr class="section-header"><td colspan="3">D. FACTORY OVERHEAD</td></tr>
                             <tr><td>Electricity & machine usage</td><td>14.84</td><td>7,420.00</td></tr>
                             <tr><td>Indirect labour (supervision)</td><td>4.95</td><td>2,475.00</td></tr>
                             <tr><td>Factory rent & rates</td><td>3.30</td><td>1,650.00</td></tr>
                             <tr><td>Small tools & consumables</td><td>1.65</td><td>825.00</td></tr>
                             <tr class="prime-row"><td>Total Factory Overhead (D)</td><td>24.74</td><td>12,370.00</td></tr>
-                            
                             <tr class="section-header"><td colspan="3">F. SELLING & DISTRIBUTION</td></tr>
                             <tr><td>Packaging</td><td>6.00</td><td>3,000.00</td></tr>
                             <tr><td>Transport / marketing</td><td>3.79</td><td>1,895.00</td></tr>
                             <tr class="prime-row"><td>Total Selling & Distribution (F)</td><td>9.79</td><td>4,895.00</td></tr>
-                            
-                            <tr class="final-row"><td>G. TOTAL COST OF SALES (C + D + F)</td><td>174.70</td><td>87,350.00</td></tr>
+                            <tr class="final-row"><td>G. COST OF SALES (FINAL COST)</td><td>174.70</td><td>87,350.00</td></tr>
                             <tr class="prime-row"><td>H. PROFIT PER BAG</td><td>75.30</td><td>37,650.00</td></tr>
                             <tr class="prime-row" style="background: var(--leather); color: white;"><td>I. SELLING PRICE</td><td>250.00</td><td>1,25,000.00</td></tr>
                         </tbody>
@@ -518,72 +424,71 @@
                 </div>
             </div>
 
-            <!-- Slide 8: Variance Analysis (Q4) -->
+            <!-- Slide 6: Variance Analysis -->
             <div class="slide">
-                <h2>Q4: Variance Analysis</h2>
+                <div class="method-badge badge-kaizen">Kaizen Trigger Point</div>
+                <h2>Variance Analysis</h2>
                 <table>
                     <thead>
-                        <tr>
-                            <th>Cost Element</th>
-                            <th>Standard (₹)</th>
-                            <th>Actual (₹)</th>
-                            <th>Variance</th>
-                        </tr>
+                        <tr><th>Category</th><th>Std (₹)</th><th>Act (₹)</th><th>Var</th></tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Direct Materials</td>
-                            <td>₹168.00</td>
-                            <td>₹154.70</td>
-                            <td style="color: var(--green);">+₹13.30 (F)</td>
-                        </tr>
+                        <tr><td>Direct Materials</td><td>168.00</td><td>154.70</td><td style="color: var(--green);">+13.30 (F)</td></tr>
                         <tr class="warning-row">
                             <td>Labor & Overhead</td>
-                            <td>₹12.00</td>
-                            <td>₹20.00</td>
-                            <td>-₹8.00 (A)</td>
+                            <td>12.00</td>
+                            <td>20.00</td>
+                            <td>-8.00 (A)</td>
                         </tr>
-                        <tr style="font-weight: bold; border-top: 2px solid #000;">
-                            <td>Total Cost Per Unit</td>
-                            <td>₹180.00</td>
-                            <td>₹174.70</td>
-                            <td style="color: var(--green);">+₹5.30 (F)</td>
+                        <tr style="font-weight: bold; border-top: 2px solid black;">
+                            <td>Total Cost</td>
+                            <td>180.00</td>
+                            <td>174.70</td>
+                            <td>+5.30 (F)</td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="paper-item" style="margin-top: 20px; border-left: 5px solid var(--danger);">
-                    <h4 style="color: var(--danger); font-size: 0.9em;"><i class="fa-solid fa-triangle-exclamation"></i> Critical Variance Insight</h4>
-                    <p style="font-size: 0.8em; margin-top: 5px;">The <strong>Unfavourable Variance of ₹8.00</strong> in Labor & Overhead indicates inefficiency in manual stitching or higher-than-expected supervision time. However, this is successfully offset by the <strong>₹13.30 Favourable Material Variance</strong>.</p>
+                <div class="paper-item" style="margin-top: 15px; border-left: 5px solid var(--danger);">
+                    <i class="fa-solid fa-triangle-exclamation" style="color: var(--danger); margin-right: 10px;"></i>
+                    <strong>Action Required:</strong> The unfavorable labor variance (-₹8.00) triggers a <strong>Kaizen event</strong> to optimize manufacturing workflow and reduce overhead.
                 </div>
             </div>
 
-            <!-- Slide 9: Strategic Cost Management (Q4) -->
+            <!-- Slide 7: Strategic Recommendations -->
             <div class="slide">
-                <h2>Strategic Recommendations</h2>
+                <div class="method-badge badge-kaizen">Continuous Improvement (Kaizen)</div>
+                <h2>Strategic Cost Management</h2>
                 <div class="grid-2">
+                    <div class="paper-item" style="background: #e8f5e9;">
+                        <h4 style="color: var(--green);">Process Improvement</h4>
+                        <p style="font-size: 0.8em;">Implementing daily 15-minute <strong>Kaizen</strong> stand-ups to audit labor waste and identify assembly bottlenecks.</p>
+                    </div>
                     <div class="paper-item" style="background: #fff8e1;">
-                        <h3 style="font-size: 1.1em;"><i class="fa-solid fa-handshake"></i> Bulk Purchasing</h3>
-                        <p style="font-size: 0.8em;">Negotiate directly with mills for Jute fabric rolls (100m+) to reduce per-meter cost by an additional 15-20%.</p>
+                        <h4 style="color: var(--gold);">Value Engineering</h4>
+                        <p style="font-size: 0.8em;">Re-evaluating decorative accessories to reduce prime costs while preserving the "Eco-Luxury" value proposition.</p>
                     </div>
-                    <div class="paper-item" style="background: #e1f5fe;">
-                        <h3 style="font-size: 1.1em;"><i class="fa-solid fa-microchip"></i> Process Improvement</h3>
-                        <p style="font-size: 0.8em;">Adopting standardized cutting patterns and multi-task training for labor to optimize stitching cycles per hour.</p>
-                    </div>
-                </div>
-                <div class="data-point" style="margin-top: 20px; text-align: center;">
-                    <strong>Future Scalability:</strong> Transitioning from 500 units to 5,000 units will trigger economies of scale, potentially lowering the total cost to ₹160 per bag.
                 </div>
             </div>
 
-            <!-- Slide 10: Conclusion -->
-            <div class="slide" style="text-align: center;">
-                <h2 style="border: none;">Market Readiness Verdict</h2>
-                <div style="font-size: 4em; color: var(--gold); margin: 10px 0;"><i class="fa-solid fa-circle-check"></i></div>
-                <p style="font-size: 1.2em; font-weight: bold; color: var(--green);">VIABLE & SUSTAINABLE</p>
-                <div class="paper-item" style="margin-top: 20px; text-align: left;">
-                    <p style="font-size: 0.85em; line-height: 1.6;">JUTICA successfully demonstrates that through <strong>Target Costing</strong> and <strong>Supplier Benchmarking</strong>, it is possible to produce a high-margin (30.12%) eco-luxury product that meets stringent consumer price sensitivity (₹250) without compromising on 300 GSM quality.</p>
+            <!-- Slide 8: Manufacturing Workflow -->
+            <div class="slide">
+                <h2>Manufacturing Workflow</h2>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <div class="paper-item"><strong>1. Cutting:</strong> Precision sizing of 300 GSM jute.</div>
+                    <div class="paper-item"><strong>2. Printing:</strong> Screen printing custom dyes.</div>
+                    <div class="paper-item"><strong>3. Lamination:</strong> LDPE water-resistant sheet application.</div>
+                    <div class="paper-item"><strong>4. Assembly:</strong> Final QC and stitching.</div>
                 </div>
-                <h3 style="font-family: 'Indie Flower'; color: #888; margin-top: 20px;">Empowering Change, One Bag at a Time.</h3>
+            </div>
+
+            <!-- Slide 9: Conclusion -->
+            <div class="slide" style="text-align: center;">
+                <h1>Conclusion</h1>
+                <p style="font-size: 1.2em; color: var(--leather);">JUTICA is financially viable with a <strong>30.12% Margin</strong>.</p>
+                <div class="paper-item" style="margin-top: 20px; text-align: left;">
+                    <p style="font-size: 0.85em;">By integrating <strong>Target Costing</strong>, <strong>Value Engineering</strong>, and <strong>Kaizen</strong>, Jutica provides a sustainable alternative to synthetics at a market-responsive price point.</p>
+                </div>
+                <div style="margin-top: 40px; color: var(--gold); font-size: 3em;"><i class="fa-solid fa-leaf"></i></div>
             </div>
 
         </div>
@@ -602,23 +507,20 @@
         const contentData = {
             team: `
                 <h3 style="color:var(--leather); border-bottom:2px solid var(--gold); padding-bottom:10px; margin-bottom:20px;">TEAM ROSTER (GROUP 5)</h3>
-                <div style="text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div class="paper-item"><strong>Shrutika Thakur</strong><br><small>12520957</small></div>
-                    <div class="paper-item"><strong>Esha Thakur</strong><br><small>12525589</small></div>
-                    <div class="paper-item"><strong>Satyam Jawla</strong><br><small>12508323</small></div>
-                    <div class="paper-item"><strong>Muhammad Shinaz K P</strong><br><small>12523581</small></div>
-                    <div class="paper-item"><strong>Riya</strong><br><small>12518595</small></div>
+                <div style="text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div><strong>Shrutika Thakur</strong> (12520957)</div>
+                    <div><strong>Esha Thakur</strong> (12525589)</div>
+                    <div><strong>Satyam Jawla</strong> (12508323)</div>
+                    <div><strong>Muhammad Shinaz</strong> (12523581)</div>
+                    <div><strong>Riya</strong> (12518595)</div>
                 </div>
-                <p style="margin-top:15px; font-size: 0.8em; color: #888;">Section: Q2555 | CA-1 Academic Task</p>
             `,
             project: `
                 <h3 style="color:var(--green); margin-bottom: 20px;">LPU ACADEMIC BRIEF</h3>
-                <div style="font-family: 'Courier New', monospace; background: white; padding: 20px; border: 1px dashed #3e2723; text-align: left; font-size: 0.85em;">
-                    <p><strong>COURSE:</strong> Financial Reporting Statement & Analysis II</p>
-                    <p><strong>CODE:</strong> ACCM507</p>
-                    <p><strong>OBJECTIVE:</strong> Apply target costing techniques in planning and controlling hypothetical manufacturing costs.</p>
+                <div style="text-align: left; font-size: 0.85em;">
+                    <p><strong>COURSE:</strong> Financial Reporting II (ACCM507)</p>
+                    <p><strong>OBJECTIVE:</strong> Apply Target Costing to manufacture eco-friendly jute bags.</p>
                     <p><strong>EVALUATOR:</strong> Dr. Sakshi Thakur</p>
-                    <p><strong>TASK:</strong> Design a unique product, determine target price via research, analyze competitors, and verify cost conformity.</p>
                 </div>
             `
         };
@@ -691,23 +593,18 @@
             });
         }
 
-        // Parallax Effect
         window.addEventListener('mousemove', (e) => {
             if (!document.body.classList.contains('unzipped')) return;
             const x = (e.clientX / window.innerWidth - 0.5) * 20;
             const y = (e.clientY / window.innerHeight - 0.5) * 20;
             const wrapper = document.getElementById('bag-wrapper');
             wrapper.style.transform = `rotateX(${5 - y * 0.3}deg) rotateY(${x * 0.3}deg)`;
-            document.getElementById('p-comb').style.transform = `translate3d(${x * 1.5}px, ${y * 1.5}px, -80px) rotate(15deg)`;
-            document.getElementById('p-book').style.transform = `translate3d(${x * -2}px, ${y * -2}px, -150px) rotate(-10deg)`;
-            document.getElementById('p-glasses').style.transform = `translate3d(${x * 1}px, ${y * 1}px, -40px) rotate(-5deg)`;
         });
 
-        // Keyboard Support
         window.addEventListener('keydown', (e) => {
             if (!document.body.classList.contains('unzipped')) return;
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') nextSlide();
-            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') previousSlide();
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
         });
     </script>
 </body>
