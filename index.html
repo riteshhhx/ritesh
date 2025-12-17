@@ -10,6 +10,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&family=Indie+Flower&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <script>
+        // Moved to head to ensure it's defined before the image loads and potentially triggers onerror
+        function handleImageError() {
+            var img = document.getElementById('main-product-img');
+            var svg = document.getElementById('svg-fallback');
+            if (img) img.style.display = 'none';
+            // Use setTimeout to ensure the SVG element is parsed if the error fires immediately
+            if (svg) {
+                svg.style.opacity = '1';
+            } else {
+                setTimeout(function() {
+                    var deferredSvg = document.getElementById('svg-fallback');
+                    if (deferredSvg) deferredSvg.style.opacity = '1';
+                }, 100);
+            }
+        }
+    </script>
+
     <style>
         * {
             margin: 0;
@@ -160,10 +178,23 @@
         .slide.prev { opacity: 0; transform: translateY(-100%) rotateX(-20deg) scale(0.8); }
         .slide.next { opacity: 0; transform: translateY(100%) rotateX(20deg) scale(0.8); }
 
-        h1, h2 { font-family: 'Playfair Display', serif; color: var(--leather); border-bottom: 3px solid var(--gold); padding-bottom: 10px; margin-bottom: 25px; display: inline-block; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--leather); border-bottom: 3px solid var(--gold); padding-bottom: 10px; margin-bottom: 25px; display: inline-block; }
         h1 { font-size: 2.8em; text-align: center; width: 100%; border: none; }
         h2 { font-size: 1.8em; }
         h3 { font-family: 'Playfair Display', serif; color: var(--green); margin-bottom: 15px; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+
+        .paper-item {
+            background: #fff; padding: 15px; border: 1px solid #ddd;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s;
+        }
+        .stat-card {
+            background: var(--leather); color: white; padding: 15px; border-radius: 8px; text-align: center;
+        }
+        .stat-val { font-size: 1.8em; font-weight: bold; color: var(--gold); display: block; }
+        .stat-label { font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
 
         /* --- HIGHLIGHT BADGES --- */
         .method-badge {
@@ -193,17 +224,9 @@
         /* Winner Animation */
         .winner-row { 
             position: relative;
-            background: rgba(197, 160, 89, 0.1) !important;
+            background: rgba(197, 160, 89, 0.15) !important;
             animation: pulse-gold 2s infinite ease-in-out;
             outline: 2px solid var(--gold);
-        }
-        .winner-row td:first-child::before {
-            content: '🏆';
-            position: absolute;
-            left: -10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.5em;
         }
         @keyframes pulse-gold {
             0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.4); }
@@ -224,7 +247,6 @@
             100% { background-color: rgba(211, 47, 47, 0.1); }
         }
 
-        /* Navigation Buttons */
         .nav-controls {
             position: fixed; bottom: 30px; display: flex; gap: 40px; z-index: 300;
             opacity: 0; pointer-events: none; transition: 0.5s;
@@ -238,24 +260,58 @@
         }
         .nav-btn:hover { transform: scale(1.1); background: var(--leather-light); }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-
-        .paper-item {
-            background: #fff; padding: 15px; border: 1px solid #ddd;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s;
+        /* --- PRODUCT IMAGE STYLING --- */
+        .tote-bag-image-container {
+            width: 220px;
+            height: 220px;
+            background: #e5e0d8;
+            border-radius: 12px;
+            border: 5px solid var(--leather);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float-intro 4s ease-in-out infinite;
+            position: relative;
         }
-        .stat-card {
-            background: var(--leather); color: white; padding: 15px; border-radius: 8px; text-align: center;
+        .tote-bag-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
-        .stat-val { font-size: 1.8em; font-weight: bold; color: var(--gold); display: block; }
-        .stat-label { font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
-
-        @media (max-width: 768px) {
-            .grid-2, .grid-3 { grid-template-columns: 1fr; }
-            .slide { top: 20px; left: 20px; right: 20px; bottom: 80px; padding: 20px; }
-            h1 { font-size: 2em; }
-            .nav-controls { bottom: 15px; gap: 20px; }
+        .image-fallback {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        @keyframes float-intro {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+        
+        /* Banner Placeholder Style */
+        .banner-placeholder-container {
+            margin-top: 20px; 
+            width: 100%; 
+            height: 120px; 
+            overflow: hidden; 
+            border-radius: 8px; 
+            border: 2px dashed var(--leather);
+            position: relative;
+            background: #eee;
+        }
+        .banner-placeholder-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        .banner-placeholder-container:hover img {
+            opacity: 1;
         }
     </style>
 </head>
@@ -306,7 +362,7 @@
                 <i class="fa-solid fa-glasses bag-item item-glasses" id="p-glasses"></i>
             </div>
 
-            <!-- Slide 1: Introduction -->
+            <!-- Slide 1: Main Title -->
             <div class="slide active">
                 <div style="border: 5px double var(--gold); padding: 40px; text-align: center; margin-top: auto; margin-bottom: auto;">
                     <h1 style="margin-bottom: 0;">JUTICA</h1>
@@ -317,7 +373,56 @@
                 </div>
             </div>
 
-            <!-- Slide 2: Market Survey -->
+            <!-- Slide 2: PRODUCT INTRODUCTION SUMMARY (REAL JUTE TEXTURE) -->
+            <div class="slide">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 40px; margin-bottom: 25px; flex-wrap: wrap;">
+                    <div class="tote-bag-image-container">
+                        <!-- GITHUB CONFIGURATION: Replace the src link below with your local file path (e.g., 'images/product-shot.jpg') -->
+                        <img src="bag.jpg" 
+                             alt="JUTICA Authentic Jute Texture" 
+                             class="tote-bag-image"
+                             id="main-product-img"
+                             onerror="handleImageError()">
+                        
+                        <!-- Blueprint SVG Fallback -->
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="image-fallback" id="svg-fallback">
+                            <path d="M40 60 L160 60 L170 170 C170 180 165 185 155 185 L45 185 C35 185 30 180 30 170 Z" fill="none" stroke="#3e2723" stroke-width="2"/>
+                            <path d="M70 60 Q70 15 100 15 Q130 15 130 60" fill="none" stroke="#3e2723" stroke-width="4"/>
+                            <text x="100" y="120" font-size="10" text-anchor="middle" fill="#3e2723">DESIGN BLUEPRINT</text>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 style="margin: 0; border: none;">Introducing JUTICA</h2>
+                        <p style="color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9em; margin-bottom: 10px;">The Gold Standard of Eco-Luxury</p>
+                        <div style="width: 100px; height: 2px; background: var(--gold);"></div>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="paper-item">
+                        <h4 style="color: var(--leather); font-size: 1em;"><i class="fa-solid fa-leaf"></i> Product Identity</h4>
+                        <p style="font-size: 0.8em; line-height: 1.5; margin-top: 8px;">
+                            JUTICA is a premium, waterproof jute tote engineered for the conscious urban demographic. It uses high-density <strong>300 GSM golden jute fiber</strong> to ensure a rugged, natural look without the fragility of synthetic alternatives.
+                        </p>
+                    </div>
+                    <div class="paper-item">
+                        <h4 style="color: var(--green); font-size: 1em;"><i class="fa-solid fa-chart-line"></i> Financial Vitality</h4>
+                        <ul style="font-size: 0.8em; line-height: 1.7; margin-top: 8px; list-style: none; padding: 0;">
+                            <li><i class="fa-solid fa-tag" style="color: var(--gold); margin-right: 5px;"></i> <strong>Retail Price:</strong> ₹250.00</li>
+                            <li><i class="fa-solid fa-bullseye" style="color: var(--leather); margin-right: 5px;"></i> <strong>Target Cost:</strong> ₹180.00</li>
+                            <li><i class="fa-solid fa-check-double" style="color: var(--green); margin-right: 5px;"></i> <strong>Actual Cost:</strong> ₹174.70</li>
+                            <li><i class="fa-solid fa-coins" style="color: var(--gold); margin-right: 5px;"></i> <strong>Margin:</strong> 30.12%</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- NEW BANNER PLACEHOLDER (Replaces Quote) -->
+                <div class="banner-placeholder-container">
+                     <!-- GITHUB CONFIGURATION: Replace the src link below with your local file path (e.g., 'images/banner.jpg') -->
+                    <img src="https://placehold.co/1000x200/5d4037/fff?text=Replace+with+Repo+Image" alt="Repository Image Placeholder">
+                </div>
+            </div>
+
+            <!-- Slide 3: Market Survey & Target Audience -->
             <div class="slide">
                 <div class="method-badge badge-ve">Value Engineering: Phase I</div>
                 <h2>Market Survey Analysis</h2>
@@ -335,12 +440,15 @@
                         <span class="stat-label">Eco-Conscious</span>
                     </div>
                 </div>
-                <div class="paper-item" style="margin-top: 20px;">
-                    <p style="font-size: 0.85em;">By aligning our design with the "Medium Size" preference (Value Engineering), we ensure maximum customer satisfaction at the target price.</p>
+                <div class="paper-item" style="margin-top: 15px; border-left: 4px solid var(--green);">
+                    <h4 style="font-size: 0.85em; color: var(--green); text-transform: uppercase;"><i class="fa-solid fa-users"></i> Target Audience Profile:</h4>
+                    <p style="font-size: 0.75em; margin-top: 5px; line-height: 1.4;">
+                        Urban eco-conscious consumers (Age 18-45) prioritizing sustainable alternatives to plastic. Focuses on students, professionals, and daily shoppers who value durability and premium aesthetics.
+                    </p>
                 </div>
             </div>
 
-            <!-- Slide 3: Target Costing -->
+            <!-- Slide 4: Target Costing -->
             <div class="slide">
                 <div class="method-badge badge-ve">Value Engineering & Target Costing</div>
                 <h2>Target Cost Derivation</h2>
@@ -358,30 +466,30 @@
                 <p style="font-size: 0.75em; margin-top: 15px; font-style: italic;">We applied Value Engineering to strip away non-essential features while maintaining 300 GSM durability.</p>
             </div>
 
-            <!-- Slide 4: Supplier Benchmarking -->
+            <!-- Slide 5: Supplier Benchmarking -->
             <div class="slide">
                 <h2>Supplier Selection</h2>
                 <table>
                     <thead>
-                        <tr><th>Supplier</th><th>Price/m</th><th>Width</th></tr>
+                        <tr><th>Supplier</th><th>Price/m</th><th>Cost / Unit (0.50m)</th></tr>
                     </thead>
                     <tbody>
                         <tr class="winner-row">
                             <td><strong>Home Buy (Amazon)</strong></td>
-                            <td>₹194</td>
-                            <td>51" Width</td>
+                            <td>₹150</td>
+                            <td>₹75.00</td>
                         </tr>
-                        <tr><td>Delinger Natural</td><td>₹320</td><td>51" Width</td></tr>
-                        <tr><td>Kwality Fab</td><td>₹115</td><td>40" Width</td></tr>
+                        <tr><td>Delinger Natural</td><td>₹320</td><td>₹160.00</td></tr>
+                        <tr><td>Kwality Fab</td><td>₹115</td><td>₹57.50</td></tr>
                     </tbody>
                 </table>
                 <div class="paper-item" style="margin-top: 20px; border-left: 5px solid var(--gold);">
                     <i class="fa-solid fa-trophy" style="color: var(--gold); margin-right: 10px;"></i>
-                    <strong>Winning Choice:</strong> Selected Home Buy (Amazon) due to 51" width convenience and LDPE pre-lamination, mitigating MOQ and shipping risks.
+                    <strong>Winning Choice:</strong> Selected Home Buy (Amazon) due to 51" width convenience and LDPE pre-lamination, optimized at 0.50m per unit to manage logistical risks.
                 </div>
             </div>
 
-            <!-- Slide 5: FULL COST SHEET (Exactly from doc) -->
+            <!-- Slide 6: FULL COST SHEET -->
             <div class="slide">
                 <h2>JUTICA – Detailed Cost Sheet</h2>
                 <div style="overflow-y: auto; flex: 1;">
@@ -409,22 +517,15 @@
                             <tr class="section-header"><td colspan="3">D. FACTORY OVERHEAD</td></tr>
                             <tr><td>Electricity & machine usage</td><td>14.84</td><td>7,420.00</td></tr>
                             <tr><td>Indirect labour (supervision)</td><td>4.95</td><td>2,475.00</td></tr>
-                            <tr><td>Factory rent & rates</td><td>3.30</td><td>1,650.00</td></tr>
-                            <tr><td>Small tools & consumables</td><td>1.65</td><td>825.00</td></tr>
-                            <tr class="prime-row"><td>Total Factory Overhead (D)</td><td>24.74</td><td>12,370.00</td></tr>
-                            <tr class="section-header"><td colspan="3">F. SELLING & DISTRIBUTION</td></tr>
-                            <tr><td>Packaging</td><td>6.00</td><td>3,000.00</td></tr>
-                            <tr><td>Transport / marketing</td><td>3.79</td><td>1,895.00</td></tr>
-                            <tr class="prime-row"><td>Total Selling & Distribution (F)</td><td>9.79</td><td>4,895.00</td></tr>
+                            <tr><td>Total Factory Overhead (D)</td><td>24.74</td><td>12,370.00</td></tr>
                             <tr class="final-row"><td>G. COST OF SALES (FINAL COST)</td><td>174.70</td><td>87,350.00</td></tr>
-                            <tr class="prime-row"><td>H. PROFIT PER BAG</td><td>75.30</td><td>37,650.00</td></tr>
                             <tr class="prime-row" style="background: var(--leather); color: white;"><td>I. SELLING PRICE</td><td>250.00</td><td>1,25,000.00</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Slide 6: Variance Analysis -->
+            <!-- Slide 7: Variance Analysis -->
             <div class="slide">
                 <div class="method-badge badge-kaizen">Kaizen Trigger Point</div>
                 <h2>Variance Analysis</h2>
@@ -450,34 +551,23 @@
                 </table>
                 <div class="paper-item" style="margin-top: 15px; border-left: 5px solid var(--danger);">
                     <i class="fa-solid fa-triangle-exclamation" style="color: var(--danger); margin-right: 10px;"></i>
-                    <strong>Action Required:</strong> The unfavorable labor variance (-₹8.00) triggers a <strong>Kaizen event</strong> to optimize manufacturing workflow and reduce overhead.
+                    <strong>Action Required:</strong> The unfavorable labor variance triggered a <strong>Kaizen audit</strong> to optimize stitching efficiency.
                 </div>
             </div>
 
-            <!-- Slide 7: Strategic Recommendations -->
+            <!-- Slide 8: SCM Implementation -->
             <div class="slide">
                 <div class="method-badge badge-kaizen">Continuous Improvement (Kaizen)</div>
                 <h2>Strategic Cost Management</h2>
                 <div class="grid-2">
                     <div class="paper-item" style="background: #e8f5e9;">
                         <h4 style="color: var(--green);">Process Improvement</h4>
-                        <p style="font-size: 0.8em;">Implementing daily 15-minute <strong>Kaizen</strong> stand-ups to audit labor waste and identify assembly bottlenecks.</p>
+                        <p style="font-size: 0.8em;">Implementing <strong>Kaizen</strong> stand-ups to audit labor waste and identify assembly bottlenecks.</p>
                     </div>
                     <div class="paper-item" style="background: #fff8e1;">
                         <h4 style="color: var(--gold);">Value Engineering</h4>
-                        <p style="font-size: 0.8em;">Re-evaluating decorative accessories to reduce prime costs while preserving the "Eco-Luxury" value proposition.</p>
+                        <p style="font-size: 0.8em;">Re-evaluating hardware to reduce prime costs while preserving "Eco-Luxury" branding.</p>
                     </div>
-                </div>
-            </div>
-
-            <!-- Slide 8: Manufacturing Workflow -->
-            <div class="slide">
-                <h2>Manufacturing Workflow</h2>
-                <div style="display: flex; flex-direction: column; gap: 15px;">
-                    <div class="paper-item"><strong>1. Cutting:</strong> Precision sizing of 300 GSM jute.</div>
-                    <div class="paper-item"><strong>2. Printing:</strong> Screen printing custom dyes.</div>
-                    <div class="paper-item"><strong>3. Lamination:</strong> LDPE water-resistant sheet application.</div>
-                    <div class="paper-item"><strong>4. Assembly:</strong> Final QC and stitching.</div>
                 </div>
             </div>
 
@@ -486,14 +576,13 @@
                 <h1>Conclusion</h1>
                 <p style="font-size: 1.2em; color: var(--leather);">JUTICA is financially viable with a <strong>30.12% Margin</strong>.</p>
                 <div class="paper-item" style="margin-top: 20px; text-align: left;">
-                    <p style="font-size: 0.85em;">By integrating <strong>Target Costing</strong>, <strong>Value Engineering</strong>, and <strong>Kaizen</strong>, Jutica provides a sustainable alternative to synthetics at a market-responsive price point.</p>
+                    <p style="font-size: 0.85em;">By integrating <strong>Target Costing</strong>, <strong>Value Engineering</strong>, and <strong>Kaizen</strong>, we provide a sustainable alternative at a market-responsive price point.</p>
                 </div>
                 <div style="margin-top: 40px; color: var(--gold); font-size: 3em;"><i class="fa-solid fa-leaf"></i></div>
             </div>
 
         </div>
 
-        <!-- NAVIGATION -->
         <div class="nav-controls">
             <button class="nav-btn" onclick="previousSlide()"><i class="fa-solid fa-chevron-left"></i></button>
             <button class="nav-btn" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
@@ -502,28 +591,33 @@
 
     <script>
         let currentSlideIndex = 0;
-        const slides = document.querySelectorAll('.slide');
         
         const contentData = {
             team: `
                 <h3 style="color:var(--leather); border-bottom:2px solid var(--gold); padding-bottom:10px; margin-bottom:20px;">TEAM ROSTER (GROUP 5)</h3>
                 <div style="text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div><strong>Shrutika Thakur</strong> (12520957)</div>
-                    <div><strong>Esha Thakur</strong> (12525589)</div>
-                    <div><strong>Satyam Jawla</strong> (12508323)</div>
-                    <div><strong>Muhammad Shinaz</strong> (12523581)</div>
-                    <div><strong>Riya</strong> (12518595)</div>
+                    <div>Shrutika Thakur (12520957)</div>
+                    <div>Esha Thakur (12525589)</div>
+                    <div>Satyam Jawla (12508323)</div>
+                    <div>Muhammad Shinaz (12523581)</div>
+                    <div>Riya (12518595)</div>
                 </div>
             `,
             project: `
                 <h3 style="color:var(--green); margin-bottom: 20px;">LPU ACADEMIC BRIEF</h3>
                 <div style="text-align: left; font-size: 0.85em;">
-                    <p><strong>COURSE:</strong> Financial Reporting II (ACCM507)</p>
-                    <p><strong>OBJECTIVE:</strong> Apply Target Costing to manufacture eco-friendly jute bags.</p>
-                    <p><strong>EVALUATOR:</strong> Dr. Sakshi Thakur</p>
+                    <p>COURSE: Financial Reporting II (ACCM507)</p>
+                    <p>OBJECTIVE: Apply Target Costing to manufacture eco-friendly bags.</p>
+                    <p>EVALUATOR: Dr. Sakshi Thakur</p>
                 </div>
             `
         };
+
+        // IMAGE FALLBACK HANDLER
+        function handleImageError() {
+            document.getElementById('main-product-img').style.display = 'none';
+            document.getElementById('svg-fallback').style.opacity = '1';
+        }
 
         function showInfo(type) {
             const overlay = document.getElementById('info-overlay');
@@ -547,7 +641,8 @@
         }
 
         function updateSlides() {
-            slides.forEach((slide, idx) => {
+            const slidesArr = document.querySelectorAll('.slide');
+            slidesArr.forEach((slide, idx) => {
                 slide.classList.remove('active', 'prev', 'next');
                 if (idx === currentSlideIndex) {
                     slide.classList.add('active');
@@ -561,7 +656,8 @@
         }
 
         function nextSlide() {
-            if (currentSlideIndex < slides.length - 1) {
+            const slidesArr = document.querySelectorAll('.slide');
+            if (currentSlideIndex < slidesArr.length - 1) {
                 currentSlideIndex++;
                 updateSlides();
             }
