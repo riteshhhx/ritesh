@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JUTICA - 3D Eco-Friendly Presentation</title>
+    <title>JUTICA - 3D Strategic Cost Presentation</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,6 @@
             --cream: #f5f5dc;
             --paper: #fffdf0;
             --text: #2c3e50;
-            /* Jute Texture Pattern */
             --jute-pattern: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZDdjY2M4Ii8+CjxwYXRoIGQ9Ik0wIDBMNCA0Wk00IDBMMCA0WiIgc3Ryb2tlPSJyZ2JhKDEzOSw2OSwxOSwwLjE1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjwvc3ZnPg==');
         }
 
@@ -44,10 +43,7 @@
             perspective: 2000px;
         }
 
-        /* ========================================
-           1. BAG COVER & INTRO UI
-           ======================================== 
-        */
+        /* --- COVER UI --- */
         #bag-cover {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -74,7 +70,6 @@
         .ch-left { left: 28%; transform: translateX(-50%); }
         .ch-right { right: 28%; transform: translateX(50%); }
 
-        /* Hang Tag - Primary Trigger */
         #hang-tag {
             position: relative;
             z-index: 10; width: 160px; height: 220px; margin-bottom: 30px;
@@ -84,78 +79,50 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         #hang-tag:hover { transform: scale(1.05); }
-        
-        .tag-ring {
-            width: 20px; height: 20px; background: #333; border-radius: 50%; border: 3px solid #ccc;
-            position: absolute; top: 15px;
-        }
+        .tag-ring { width: 20px; height: 20px; background: #333; border-radius: 50%; border: 3px solid #ccc; position: absolute; top: 15px; }
 
-        /* Buttons Container */
-        .intro-buttons {
-            position: relative; z-index: 20;
-            display: flex; gap: 20px;
-            transition: opacity 0.5s ease;
-        }
-
+        .intro-buttons { position: relative; z-index: 20; display: flex; gap: 20px; transition: opacity 0.5s ease; }
         .cover-btn {
-            padding: 12px 25px;
-            font-family: 'Lato', sans-serif; font-size: 0.9em; letter-spacing: 1px;
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--leather);
-            border: 2px solid var(--leather);
-            border-radius: 4px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            display: flex; align-items: center; gap: 8px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            font-weight: bold;
+            padding: 12px 25px; font-family: 'Lato', sans-serif; font-size: 0.8em; letter-spacing: 1px;
+            background: rgba(255, 255, 255, 0.9); color: var(--leather); border: 2px solid var(--leather);
+            border-radius: 4px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; text-transform: uppercase; font-weight: bold;
         }
-        .cover-btn:hover {
-            background: var(--leather); color: var(--gold);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-        }
+        .cover-btn:hover { background: var(--leather); color: var(--gold); transform: translateY(-3px); }
 
-        /* --- UNZIPPED STATE ANIMATIONS --- */
         body.unzipped .bag-panel.left { transform: translateX(-100%); }
         body.unzipped .bag-panel.right { transform: translateX(100%); }
-        
-        body.unzipped #hang-tag { 
-            transform: translateY(100vh) rotate(20deg); 
-            transition: transform 1s ease-in;
-        }
-        
+        body.unzipped #hang-tag { transform: translateY(100vh) rotate(20deg); }
         body.unzipped .intro-buttons { opacity: 0; pointer-events: none; }
         body.unzipped .cover-handle { transform: translateY(-250px); opacity: 0; }
-        body.unzipped #bag-cover { visibility: hidden; }
 
-
-        /* ========================================
-           2. MAIN 3D CONTENT
-           ======================================== 
-        */
-        .bag-wrapper {
-            position: relative;
-            width: 95%;
-            max-width: 1200px;
-            height: 90vh;
-            display: flex;
-            justify-content: center;
-            transform-style: preserve-3d;
-            transform: rotateX(5deg); 
-            opacity: 0; /* Hidden initially */
-            transition: opacity 1s 0.8s; /* Fade in after unzip starts */
+        /* --- GLOBAL OVERLAY (Moved outside cover) --- */
+        #info-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 999; display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: 0.4s; backdrop-filter: blur(8px);
         }
-        
+        #info-overlay.active { opacity: 1; pointer-events: auto; }
+        .info-card {
+            background: #fffdf0; padding: 40px; border-radius: 4px; max-width: 600px; width: 90%;
+            text-align: center; position: relative; box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            transform: scale(0.9); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #info-overlay.active .info-card { transform: scale(1); }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 2.5em; background: none; border: none; color: var(--leather); cursor: pointer; line-height: 1; }
+
+        /* --- MAIN CONTENT --- */
+        .bag-wrapper {
+            position: relative; width: 95%; max-width: 1100px; height: 85vh;
+            display: flex; justify-content: center; transform-style: preserve-3d;
+            transform: rotateX(5deg); opacity: 0; transition: opacity 1s 0.8s;
+        }
         body.unzipped .bag-wrapper { opacity: 1; }
 
-        /* Internal Handles */
         .bag-handle {
             position: absolute; top: -50px; width: 160px; height: 100px;
             border: 18px solid #3e2723; border-radius: 50% 50% 0 0;
             z-index: 1; box-shadow: 0 10px 20px rgba(0,0,0,0.6);
-            transform: translateZ(-50px);
         }
         .handle-left { left: 20%; transform: rotate(-5deg) translateZ(-50px); }
         .handle-right { right: 20%; transform: rotate(5deg) translateZ(-50px); }
@@ -163,276 +130,98 @@
         .slides-container {
             width: 100%; height: 100%; position: relative; z-index: 10;
             background-color: #d7ccc8; background-image: var(--jute-pattern);
-            border-radius: 0 0 60px 60px;
-            box-shadow: inset 0 0 150px rgba(0,0,0,0.5), 0 50px 100px rgba(0,0,0,0.8);
-            border: 10px solid var(--leather-light);
-            outline: 3px dashed #a1887f; outline-offset: -15px;
+            border-radius: 0 0 40px 40px;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.4), 0 30px 60px rgba(0,0,0,0.6);
+            border: 8px solid var(--leather-light);
+            outline: 2px dashed #a1887f; outline-offset: -12px;
             perspective: 1500px; transform-style: preserve-3d; overflow: hidden; 
         }
 
-        /* BAG CONTENTS DECORATION */
-        .bag-contents {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 1; /* Behind slides */
-            transform-style: preserve-3d;
+        .bag-contents { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; transform-style: preserve-3d; }
+        .bag-item { position: absolute; transition: transform 0.5s ease-out; }
+        .item-comb { bottom: 5%; left: 5%; width: 120px; transform: translateZ(-80px) rotate(15deg); filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3)); }
+        .item-notebook { bottom: 8%; right: 5%; font-size: 100px; color: #795548; transform: translateZ(-150px) rotate(-10deg); text-shadow: 2px 4px 6px rgba(0,0,0,0.3); }
+        .item-glasses { bottom: 12%; left: 18%; font-size: 50px; color: #3e2723; transform: translateZ(-40px) rotate(-5deg); opacity: 0.7; }
+        .item-bottle { 
+            bottom: 10%; right: 15%; width: 50px; height: 120px; background: rgba(46, 125, 50, 0.4); 
+            border: 2px solid rgba(46, 125, 50, 0.6); border-radius: 10px; transform: translateZ(-120px) rotate(5deg); backdrop-filter: blur(2px);
         }
 
-        .bag-item {
-            position: absolute;
-            transition: transform 1s ease-out;
-        }
-
-        /* Wooden Comb */
-        .item-comb {
-            bottom: 5%; left: 5%;
-            width: 150px;
-            transform: translateZ(-100px) rotate(15deg);
-            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));
-        }
-
-        /* Notebook */
-        .item-notebook {
-            bottom: 8%; right: 5%;
-            font-size: 120px;
-            color: #795548;
-            transform: translateZ(-200px) rotate(-10deg);
-            text-shadow: 2px 4px 6px rgba(0,0,0,0.3);
-        }
-
-        /* Sunglasses */
-        .item-glasses {
-            bottom: 15%; left: 20%;
-            font-size: 60px;
-            color: #3e2723;
-            transform: translateZ(-50px) rotate(-5deg);
-            opacity: 0.8;
-        }
-
-        /* Pencils/Pens */
-        .item-pen {
-            bottom: 5%; right: 25%;
-            font-size: 40px;
-            color: #c5a059;
-            transform: translateZ(-20px) rotate(80deg);
-        }
-        
-        /* Water Bottle (CSS Shape) */
-        .item-bottle {
-            bottom: 10%; right: 15%;
-            width: 60px; height: 140px;
-            background: rgba(46, 125, 50, 0.4);
-            border: 2px solid rgba(46, 125, 50, 0.6);
-            border-radius: 10px;
-            transform: translateZ(-150px) rotate(5deg);
-            backdrop-filter: blur(2px);
-        }
-        .item-bottle::before {
-            content: ''; position: absolute; top: -15px; left: 15px;
-            width: 30px; height: 15px; background: #2e7d32;
-            border-radius: 2px;
-        }
-
-        /* ===== 3D SLIDE LOGIC ===== */
+        /* --- SLIDE UI --- */
         .slide {
-            position: absolute; top: 50px; left: 50px; right: 50px; bottom: 50px;
-            background: #fdfbf7; padding: 40px 60px; border-radius: 5px;
-            box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 10px 30px rgba(0,0,0,0.2);
+            position: absolute; top: 40px; left: 40px; right: 40px; bottom: 40px;
+            background: #fdfbf7; padding: 40px; border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             display: flex; flex-direction: column; justify-content: center;
-            overflow-y: auto; overflow-x: hidden;
-            transition: transform 1.6s cubic-bezier(0.25, 1, 0.35, 1), opacity 1.2s ease-in-out, filter 1.2s ease;
-            transform-origin: center 200%; backface-visibility: hidden;
+            transition: transform 1.2s cubic-bezier(0.25, 1, 0.35, 1), opacity 0.8s, filter 0.8s;
+            transform-origin: center 150%; backface-visibility: hidden;
             background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.02) 100%);
+            overflow-y: auto;
         }
 
-        h1, h2 {
-            font-family: 'Playfair Display', serif; color: var(--leather);
-            border-bottom: 3px solid var(--gold); padding-bottom: 10px; margin-bottom: 30px; display: inline-block;
-        }
-        h1 { font-size: 3.5em; text-align: center; width: 100%; border: none; }
-        h2 { font-size: 2.2em; margin-bottom: 20px; }
+        h1, h2 { font-family: 'Playfair Display', serif; color: var(--leather); border-bottom: 3px solid var(--gold); padding-bottom: 10px; margin-bottom: 25px; display: inline-block; }
+        h1 { font-size: 3em; text-align: center; width: 100%; border: none; }
+        h2 { font-size: 2em; }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
         .paper-item {
             background: #fff; padding: 20px; border: 1px solid #ddd;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: translateZ(0); 
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s;
         }
-        .slide[style*="opacity: 1"] .paper-item, .slide[style*="opacity: 1"] .stat-card, .slide[style*="opacity: 1"] .process-step, .slide[style*="opacity: 1"] .receipt-container, .slide[style*="opacity: 1"] .vs-card, .slide[style*="opacity: 1"] .vendor-card, .slide[style*="opacity: 1"] .polaroid {
-             animation: popIn 1s 0.4s backwards cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        
-        .slide[style*="opacity: 1"] .grid-3 > *:nth-child(2) { animation-delay: 0.5s; }
-        .slide[style*="opacity: 1"] .grid-3 > *:nth-child(3) { animation-delay: 0.6s; }
-        .slide[style*="opacity: 1"] .grid-2 > *:nth-child(2) { animation-delay: 0.5s; }
-        .slide[style*="opacity: 1"] .grid-2 > *:nth-child(3) { animation-delay: 0.6s; }
-        .slide[style*="opacity: 1"] .grid-2 > *:nth-child(4) { animation-delay: 0.7s; }
+        .paper-item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
 
-        @keyframes popIn { from { opacity: 0; transform: translateY(40px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        .paper-item:hover { transform: translateZ(20px) scale(1.02); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
-
-        /* Stat Cards */
         .stat-card {
-            background: white; padding: 15px; text-align: center; border: 2px solid #eee; border-radius: 8px;
-            cursor: pointer; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-            position: relative; min-height: 180px; display: flex; align-items: center; justify-content: center;
+            background: var(--leather); color: white; padding: 20px; border-radius: 8px; text-align: center;
         }
-        .stat-card.flipped { transform: rotateY(180deg); }
-        .card-front, .card-back { 
-            backface-visibility: hidden; width: 100%; height: 100%; position: absolute; top: 0; left: 0;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 15px; border-radius: 6px;
-        }
-        .card-front { background: white; z-index: 2; }
-        .card-back { background: var(--leather); color: white; transform: rotateY(180deg); z-index: 1; box-shadow: inset 0 0 20px rgba(0,0,0,0.3); }
+        .stat-val { font-size: 2.2em; font-weight: bold; color: var(--gold); display: block; margin-bottom: 5px; }
+        .stat-label { font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
 
-        /* Receipt Style */
-        .receipt-container {
-            background: #fff; width: 400px; margin: 0 auto; padding: 30px;
-            font-family: 'Courier Prime', monospace; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            position: relative; clip-path: polygon(0 0, 100% 0, 100% 100%, 95% 98%, 90% 100%, 85% 98%, 80% 100%, 75% 98%, 70% 100%, 65% 98%, 60% 100%, 55% 98%, 50% 100%, 45% 98%, 40% 100%, 35% 98%, 30% 100%, 25% 98%, 20% 100%, 15% 98%, 10% 100%, 5% 98%, 0 100%);
+        /* --- NAVIGATION UI --- */
+        .nav-controls {
+            position: fixed; bottom: 30px; display: flex; gap: 40px; z-index: 300;
+            opacity: 0; pointer-events: none; transition: 0.5s;
         }
-        .receipt-header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 20px; margin-bottom: 20px; }
-        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .receipt-total { border-top: 2px solid #000; margin-top: 15px; padding-top: 10px; font-weight: bold; font-size: 1.2em; }
+        body.unzipped .nav-controls { opacity: 1; pointer-events: auto; }
 
-        /* Manufacturing Thread Timeline */
-        .thread-container { position: relative; padding-left: 40px; }
-        .thread-line {
-            position: absolute; top: 0; bottom: 0; left: 15px; width: 4px;
-            background: repeating-linear-gradient(to bottom, var(--leather) 0, var(--leather) 10px, transparent 10px, transparent 20px);
+        .nav-btn {
+            width: 60px; height: 60px; border-radius: 50%; background: var(--leather); color: var(--gold);
+            border: 3px solid var(--gold); cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5em; box-shadow: 0 10px 20px rgba(0,0,0,0.4); transition: 0.3s;
         }
-        .thread-step { position: relative; margin-bottom: 25px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .thread-step::before {
-            content: ''; position: absolute; left: -31px; top: 50%; width: 12px; height: 12px;
-            background: var(--gold); border-radius: 50%; border: 3px solid var(--leather); transform: translateY(-50%);
-        }
+        .nav-btn:hover { transform: scale(1.1); background: var(--leather-light); }
+        .nav-btn:active { transform: scale(0.9); }
 
-        /* Vendor Cards */
-        .vendor-card {
-            background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd; position: relative;
-            transition: 0.3s;
+        /* --- RECEIPT --- */
+        .receipt {
+            font-family: 'Courier Prime', monospace; background: white; padding: 25px; border: 1px solid #ddd;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.05); position: relative;
         }
-        .vendor-card.winner { border: 3px solid var(--green); background: #f0fff4; transform: scale(1.05); z-index: 5; }
-        .stamp-selected {
-            position: absolute; top: -10px; right: -10px; background: var(--green); color: white;
-            padding: 5px 15px; font-size: 0.8em; font-weight: bold; transform: rotate(15deg); box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
+        .receipt-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dotted #ccc; }
+        .receipt-total { border-top: 2px solid #000; font-weight: bold; margin-top: 10px; padding-top: 10px; }
 
-        /* Polaroid Style */
-        .polaroid {
-            background: white; padding: 15px 15px 40px 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            transform: rotate(-3deg); text-align: center;
-        }
-        .polaroid:nth-child(even) { transform: rotate(3deg); }
-        .polaroid-content { background: #f9f9f9; padding: 20px 0; border: 1px solid #eee; }
+        .data-point { background: #e8f5e9; padding: 10px; border-radius: 6px; border-left: 4px solid var(--green); margin-bottom: 10px; }
 
-        /* VS Battle */
-        .vs-card { background: white; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #eee; }
-        .vs-badge { background: #333; color: white; display: inline-block; padding: 5px 10px; border-radius: 20px; font-size: 0.8em; margin-bottom: 15px; }
-
-        /* Cert Stamp */
-        .success-stamp {
-            border: 5px double var(--gold); padding: 40px; display: inline-block;
-            border-radius: 50%; color: var(--leather); transform: rotate(-10deg);
-            box-shadow: 0 0 0 10px rgba(197, 160, 89, 0.2);
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .slide { top: 20px; left: 20px; right: 20px; bottom: 80px; padding: 20px; }
+            h1 { font-size: 2em; }
+            .nav-controls { bottom: 15px; }
         }
-
-        /* ===== MODAL & OVERLAYS ===== */
-        #info-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 300; display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease; backdrop-filter: blur(8px);
-        }
-        #info-overlay.active { opacity: 1; pointer-events: auto; }
-
-        .info-card {
-            background: #fffdf0; padding: 40px; border-radius: 4px; max-width: 600px; width: 90%;
-            text-align: center; position: relative; transform: translateY(20px);
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.6); border: 1px solid #d7ccc8;
-        }
-        #info-overlay.active .info-card { transform: translateY(0); }
-
-        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 2em; background: none; border: none; color: var(--leather); cursor: pointer; }
-
-        /* Popup Content Styles */
-        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 25px; text-align: left; }
-        .member-tag {
-            background: #fff; border: 1px solid #e0e0e0; border-left: 5px solid var(--leather);
-            padding: 12px 15px; box-shadow: 0 3px 6px rgba(0,0,0,0.08); position: relative;
-            transition: transform 0.3s; display: flex; align-items: center; gap: 12px;
-        }
-        .member-tag:hover { transform: translateX(5px); background: #faf9f6; }
-        .member-icon { width: 38px; height: 38px; background: var(--cream); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--leather); border: 1px dashed var(--gold); }
-        .member-info { display: flex; flex-direction: column; }
-        .member-name { font-weight: bold; color: #333; font-size: 0.95em; }
-        .member-id { font-size: 0.8em; color: #777; font-family: monospace; }
-
-        .project-manifest {
-            border: 2px dashed var(--leather); padding: 25px; background: #fff; position: relative;
-            font-family: 'Courier New', monospace; margin-top: 20px; box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
-        }
-        .project-manifest::before {
-            content: 'SPECIFICATION SHEET'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-            background: #fffdf0; padding: 0 15px; color: var(--leather); font-weight: bold; font-size: 0.9em; letter-spacing: 2px; border: 1px solid #ddd;
-        }
-        .manifest-row { display: flex; justify-content: space-between; border-bottom: 1px dotted #bbb; padding: 10px 0; align-items: center; }
-        .manifest-row:last-child { border-bottom: none; }
-        .manifest-label { color: #666; font-weight: bold; text-transform: uppercase; font-size: 0.85em; }
-        .manifest-value { color: #222; font-weight: bold; text-align: right; }
-
-        /* STRATEGY MAP STYLES */
-        .strategy-board {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-            background-image: radial-gradient(#d7ccc8 1px, transparent 1px);
-            background-size: 20px 20px; /* Dot grid background */
-            padding: 20px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05);
-        }
-        
-        .strategy-card {
-            background: white; padding: 20px; border-radius: 6px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-left: 5px solid #ccc;
-            overflow: hidden;
-        }
-        .strategy-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        
-        .strat-icon {
-            position: absolute; top: 15px; right: 15px; font-size: 3em; opacity: 0.1;
-            transform: rotate(-10deg);
-        }
-        
-        .strat-title { font-weight: bold; font-size: 1.1em; color: var(--leather); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-        .strat-desc { font-size: 0.85em; color: #666; margin-bottom: 15px; line-height: 1.4; }
-        
-        .strat-target {
-            background: #f4f4f4; padding: 8px 12px; border-radius: 4px;
-            display: inline-block; font-weight: bold; font-size: 0.9em;
-            border: 1px dashed #bbb; color: #333;
-        }
-        
-        /* Specific Card Themes */
-        .sc-bulk { border-left-color: var(--leather); }
-        .sc-bulk .strat-target { color: var(--leather); background: #efebe9; border-color: var(--leather); }
-        
-        .sc-eff { border-left-color: #e67e22; }
-        .sc-eff .strat-target { color: #e67e22; background: #fff3e0; border-color: #e67e22; }
-        
-        .sc-exp { border-left-color: #2980b9; }
-        .sc-exp .strat-target { color: #2980b9; background: #e3f2fd; border-color: #2980b9; }
-        
-        .sc-des { border-left-color: var(--green); }
-        .sc-des .strat-target { color: var(--green); background: #e8f5e9; border-color: var(--green); }
-
     </style>
 </head>
 <body>
 
-    <!-- 1. THE BAG COVER (Intro Layer) -->
+    <!-- OVERLAY (Global) -->
+    <div id="info-overlay" onclick="hideInfo()">
+        <div class="info-card" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="hideInfo()">&times;</button>
+            <div id="info-content"></div>
+        </div>
+    </div>
+
+    <!-- INTRO LAYER -->
     <div id="bag-cover">
         <div class="bag-panel left"></div>
         <div class="bag-panel right"></div>
@@ -440,326 +229,176 @@
         <div class="cover-handle ch-left"></div>
         <div class="cover-handle ch-right"></div>
         
-        <!-- Hang Tag (Primary Trigger) -->
         <div id="hang-tag" onclick="openBag()">
             <div class="tag-ring"></div>
-            <h2 style="font-family: 'Playfair Display'; margin: 0; color: #3e2723; font-size: 1.5em; margin-top: 15px; border:none; padding:0;">JUTICA</h2>
-            <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #2e7d32; margin-top: 5px;">Eco Project</p>
-            <div style="margin-top: 20px; font-size: 24px; color: #3e2723;"><i class="fa-solid fa-lock-open"></i></div>
-            <p style="font-size: 9px; color: #777; margin-top: 5px;">CLICK TO UNZIP</p>
+            <h2 style="font-family: 'Playfair Display'; margin: 0; color: #3e2723; font-size: 1.5em; border:none;">JUTICA</h2>
+            <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #2e7d32; margin-top: 5px;">3D ECO-LUXURY</p>
+            <div style="margin-top: 20px; font-size: 24px; color: #3e2723;"><i class="fa-solid fa-unlock"></i></div>
+            <p style="font-size: 9px; color: #777; margin-top: 5px;">UNZIP TO BEGIN</p>
         </div>
 
-        <!-- Extra Buttons -->
         <div class="intro-buttons">
-            <button class="cover-btn" onclick="showInfo('team')">
-                <i class="fa-solid fa-users"></i> Meet Team
-            </button>
-            <button class="cover-btn" onclick="showInfo('project')">
-                <i class="fa-solid fa-circle-info"></i> Project Specs
-            </button>
-        </div>
-
-        <!-- POPUP MODAL -->
-        <div id="info-overlay" onclick="hideInfo()">
-            <div class="info-card" onclick="event.stopPropagation()">
-                <button class="close-btn" onclick="hideInfo()">&times;</button>
-                <div id="info-content"></div>
-            </div>
+            <button class="cover-btn" onclick="showInfo('team')"><i class="fa-solid fa-users"></i> Team</button>
+            <button class="cover-btn" onclick="showInfo('project')"><i class="fa-solid fa-file-invoice"></i> Brief</button>
         </div>
     </div>
 
-    <!-- 2. MAIN 3D PRESENTATION (Inner Layer) -->
+    <!-- PRESENTATION LAYER -->
     <div class="bag-wrapper">
         <div class="bag-handle handle-left"></div>
         <div class="bag-handle handle-right"></div>
 
         <div class="slides-container" id="slides-container">
             
-            <!-- BAG CONTENTS (Background Items) -->
-            <div class="bag-contents">
-                <!-- Wooden Comb SVG -->
+            <div class="bag-contents" id="parallax-contents">
                 <div class="bag-item item-comb">
-                    <svg viewBox="0 0 100 40" fill="#8d6e63">
-                        <path d="M5 10 L95 10 Q100 10 100 15 L100 35 Q100 40 95 40 L5 40 Q0 40 0 35 L0 15 Q0 10 5 10 Z" />
-                        <!-- Teeth -->
-                        <rect x="10" y="0" width="3" height="15" rx="1" />
-                        <rect x="16" y="0" width="3" height="15" rx="1" />
-                        <rect x="22" y="0" width="3" height="15" rx="1" />
-                        <rect x="28" y="0" width="3" height="15" rx="1" />
-                        <rect x="34" y="0" width="3" height="15" rx="1" />
-                        <rect x="40" y="0" width="3" height="15" rx="1" />
-                        <rect x="46" y="0" width="3" height="15" rx="1" />
-                        <rect x="52" y="0" width="3" height="15" rx="1" />
-                        <rect x="58" y="0" width="3" height="15" rx="1" />
-                        <rect x="64" y="0" width="3" height="15" rx="1" />
-                        <rect x="70" y="0" width="3" height="15" rx="1" />
-                        <rect x="76" y="0" width="3" height="15" rx="1" />
-                    </svg>
+                    <svg viewBox="0 0 100 40" fill="#8d6e63"><path d="M5 10 L95 10 Q100 10 100 15 L100 35 Q100 40 95 40 L5 40 Q0 40 0 35 L0 15 Q0 10 5 10 Z" /><rect x="10" y="0" width="3" height="15" rx="1" /><rect x="20" y="0" width="3" height="15" rx="1" /><rect x="30" y="0" width="3" height="15" rx="1" /><rect x="40" y="0" width="3" height="15" rx="1" /><rect x="50" y="0" width="3" height="15" rx="1" /><rect x="60" y="0" width="3" height="15" rx="1" /><rect x="70" y="0" width="3" height="15" rx="1" /><rect x="80" y="0" width="3" height="15" rx="1" /></svg>
                 </div>
-
-                <!-- Icons -->
                 <i class="fa-solid fa-book bag-item item-notebook"></i>
                 <i class="fa-solid fa-glasses bag-item item-glasses"></i>
-                <i class="fa-solid fa-pen-nib bag-item item-pen"></i>
                 <div class="bag-item item-bottle"></div>
             </div>
 
-            <!-- SLIDE 1: Title -->
+            <!-- Slide 1: Introduction -->
             <div class="slide">
-                <div style="border: 5px double var(--gold); padding: 60px; text-align: center;">
-                    <h1 style="font-size: 5em; margin-bottom: 10px; border:none;">JUTICA</h1>
-                    <div style="width: 100px; height: 3px; background: var(--green); margin: 20px auto;"></div>
-                    <h3 style="color: var(--leather); font-weight: normal; letter-spacing: 2px;">ECO-LUXURY JUTE TOTE</h3>
-                    <p style="margin-top: 30px; font-style: italic; color: #666;">Strategic Cost Management & Target Costing</p>
+                <div style="border: 5px double var(--gold); padding: 40px; text-align: center;">
+                    <h1 style="margin-bottom: 0;">JUTICA</h1>
+                    <div style="width: 60px; height: 3px; background: var(--green); margin: 15px auto;"></div>
+                    <p style="letter-spacing: 4px; text-transform: uppercase; color: var(--leather-light);">The Future of Sustainable Carry</p>
+                    <p style="margin-top: 25px; font-style: italic; color: #888;">Strategic Cost Management & Market Analysis</p>
                 </div>
             </div>
-            
-            <!-- SLIDE 2: Executive Summary (Mission Dashboard) -->
+
+            <!-- Slide 2: Strategic Goals -->
             <div class="slide">
-                <h2>Executive Summary</h2>
+                <h2>The Jutica Objective</h2>
                 <div class="grid-2">
-                    <!-- Objective Panel -->
-                    <div class="paper-item" style="position: relative; overflow: hidden;">
-                        <div style="position: absolute; top: -10px; right: -10px; font-size: 5em; color: rgba(0,0,0,0.03); transform: rotate(15deg);"><i class="fa-solid fa-bullseye"></i></div>
-                        <h4 style="color: var(--leather); border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-bottom: 15px;">OBJECTIVE</h4>
-                        <p style="font-size: 1.15em; line-height: 1.6; color: #444;">Design a <strong style="color: var(--green);">medium-sized</strong> eco-friendly jute tote bag using <strong>Target Costing</strong>.</p>
-                        <p style="margin-top: 15px; font-size: 0.95em; color: #666;"><i class="fa-solid fa-users-viewfinder"></i> Aligned with consumer expectations of <span style="background: #e8f5e9; padding: 2px 6px; border-radius: 4px; color: var(--green); font-weight: bold;">₹200-300</span>.</p>
-                    </div>
-                    <!-- Results Panel -->
                     <div class="paper-item">
-                        <h4 style="color: var(--green); border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-bottom: 20px;">RESULTS</h4>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                            <div style="background: #fcfcfc; padding: 10px; border-radius: 6px; border: 1px solid #eee; text-align: center;">
-                                <div style="font-size: 0.7em; color: #888; text-transform: uppercase;">Actual Cost</div>
-                                <div style="font-size: 1.4em; font-weight: bold; color: var(--leather);">₹<span class="counter" data-target="174.70">0</span></div>
-                                <div style="font-size: 0.6em; color: green;"><i class="fa-solid fa-arrow-down"></i> vs Target ₹180</div>
-                            </div>
-                            <div style="background: #fcfcfc; padding: 10px; border-radius: 6px; border: 1px solid #eee; text-align: center;">
-                                <div style="font-size: 0.7em; color: #888; text-transform: uppercase;">Selling Price</div>
-                                <div style="font-size: 1.4em; font-weight: bold; color: var(--text);">₹<span class="counter" data-target="250.00">0</span></div>
-                                <div style="font-size: 0.6em; color: #888;">Market Competitive</div>
-                            </div>
-                        </div>
-                        <div style="margin-top: 15px; background: var(--leather); color: white; padding: 15px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
-                            <div><div style="font-size: 0.8em; opacity: 0.8;">PROFIT MARGIN</div></div>
-                            <div style="font-size: 2em; font-weight: bold; color: var(--gold);"><span class="counter" data-target="30.12">0</span>%</div>
+                        <h3 style="color: var(--green); margin-bottom: 10px;"><i class="fa-solid fa-bullseye"></i> Target Costing</h3>
+                        <p>Our primary goal is to engineer a luxury-grade jute tote with a strict production cost ceiling of <strong>₹180</strong>.</p>
+                        <hr style="margin: 15px 0; border: none; border-top: 1px dashed #ddd;">
+                        <p style="font-size: 0.9em; color: #666;">This allows for a competitive selling price of ₹250 while maintaining healthy margins.</p>
+                    </div>
+                    <div class="paper-item">
+                        <h3 style="color: var(--leather); margin-bottom: 10px;"><i class="fa-solid fa-leaf"></i> Eco-Demographic</h3>
+                        <p>Targeting conscious consumers in urban hubs who prioritize durability over fast-fashion synthetics.</p>
+                        <div style="margin-top: 15px; display: flex; gap: 10px;">
+                            <span style="background: #efebe9; padding: 4px 10px; font-size: 0.7em; border-radius: 20px;">#SUSTAINABLE</span>
+                            <span style="background: #e8f5e9; padding: 4px 10px; font-size: 0.7em; border-radius: 20px;">#LUXURY</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- SLIDE 3: Key Metrics (Dashboard Gauge Style) -->
+            <!-- Slide 3: Industry Statistics -->
             <div class="slide">
-                <h2>Project Pulse</h2>
+                <h2>Global Jute Insights</h2>
+                <p style="margin-bottom: 20px; color: #666;">Jute is the "Golden Fiber," supporting millions of livelihoods globally.</p>
                 <div class="grid-3">
-                    <div class="paper-item" style="text-align: center; border-top: 5px solid green;">
-                        <div style="font-size: 3em; color: green; margin-bottom: 10px;"><i class="fa-solid fa-arrow-trend-down"></i></div>
-                        <h3 style="margin: 0; color: #333;">₹<span class="counter" data-target="5.30">0</span></h3>
-                        <p style="text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; color: #777;">Favorable Variance</p>
+                    <div class="stat-card">
+                        <span class="stat-val counter" data-target="4.5">0</span>
+                        <span class="stat-label">Million Farmers<br>(India & Bangladesh)</span>
                     </div>
-                    <div class="paper-item" style="text-align: center; border-top: 5px solid #2980b9;">
-                        <div style="font-size: 3em; color: #2980b9; margin-bottom: 10px;"><i class="fa-solid fa-users"></i></div>
-                        <h3 style="margin: 0; color: #333;"><span class="counter" data-target="56.9">0</span>%</h3>
-                        <p style="text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; color: #777;">Price Acceptance</p>
+                    <div class="stat-card">
+                        <span class="stat-val counter" data-target="80">0</span>
+                        <span class="stat-label">% Global Jute<br>Produced in Bengal</span>
                     </div>
-                    <div class="paper-item" style="text-align: center; border-top: 5px solid var(--green);">
-                        <div style="font-size: 3em; color: var(--green); margin-bottom: 10px;"><i class="fa-solid fa-leaf"></i></div>
-                        <h3 style="margin: 0; color: #333;"><span class="counter" data-target="72.4">0</span>%</h3>
-                        <p style="text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; color: #777;">Eco-Demand</p>
+                    <div class="stat-card">
+                        <span class="stat-val counter" data-target="3.2">0</span>
+                        <span class="stat-label">Million Tons<br>Annual Production</span>
+                    </div>
+                </div>
+                <div class="paper-item" style="margin-top: 20px; border-left: 5px solid var(--gold);">
+                    <p style="font-size: 0.9em; line-height: 1.6;">
+                        <strong>Socio-Economic Impact:</strong> The jute industry in India provides direct employment to <strong>3.7 Lakh</strong> industrial workers and supports nearly <strong>40 Lakh</strong> farm families. Within this sector, women comprise approximately <strong>15%</strong> of the manufacturing workforce.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 4: Detailed Cost Sheet -->
+            <div class="slide">
+                <h2>Production Cost Sheet</h2>
+                <div class="grid-2" style="align-items: start;">
+                    <div class="receipt">
+                        <p style="text-align: center; font-weight: bold; margin-bottom: 10px; border-bottom: 2px solid #000;">JUTICA COST SUMMARY</p>
+                        <div class="receipt-row"><span>Direct Materials (A)</span><span>₹<span class="counter" data-target="98.92">0</span></span></div>
+                        <div class="receipt-row"><span>Direct Labour (B)</span><span>₹<span class="counter" data-target="41.25">0</span></span></div>
+                        <div class="receipt-row" style="font-weight: bold;"><span>Prime Cost (A+B)</span><span>₹<span class="counter" data-target="140.17">0</span></span></div>
+                        <div class="receipt-row"><span>Factory Overheads (D)</span><span>₹<span class="counter" data-target="24.74">0</span></span></div>
+                        <div class="receipt-row"><span>Selling & Dist. (F)</span><span>₹<span class="counter" data-target="9.79">0</span></span></div>
+                        <div class="receipt-total receipt-row">
+                            <span>TOTAL COST OF SALES</span>
+                            <span>₹<span class="counter" data-target="174.70">0</span></span>
+                        </div>
+                        <button onclick="showInfo('costDetail')" class="cover-btn" style="width: 100%; margin-top: 15px; border-radius: 0; justify-content: center; position: relative; z-index: 10;">
+                            <i class="fa-solid fa-list-check"></i> VIEW DETAILED BREAKDOWN
+                        </button>
+                    </div>
+                    <div>
+                        <div class="stat-card" style="background: var(--green); margin-bottom: 20px;">
+                            <span class="stat-val">₹<span class="counter" data-target="75.30">0</span></span>
+                            <span class="stat-label">Net Profit Per Unit</span>
+                        </div>
+                        <div class="paper-item">
+                            <h4 style="margin-bottom: 10px;"><i class="fa-solid fa-money-bill-trend-up"></i> Strategic Pricing</h4>
+                            <p style="font-size: 0.85em;">Our total cost of sales is <strong>₹174.70</strong> per unit, which aligns perfectly with our target ceiling of <strong>₹180</strong>. This allows us to generate a <strong>30.1%</strong> profit margin at a selling price of ₹250.</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- SLIDE 4: Market Research (Mood Board) -->
+            <!-- Slide 5: Environmental Footprint -->
             <div class="slide">
-                <h2>Customer Mood Board</h2>
-                <div class="grid-3">
-                    <div class="polaroid"><div class="polaroid-content"><strong><span class="counter" data-target="70.7">0</span>%</strong></div><p style="margin-top:10px; font-family:'Indie Flower'; color:#555;">Prefer Medium Size</p></div>
-                    <div class="polaroid"><div class="polaroid-content"><strong>₹<span class="counter" data-target="250">0</span></strong></div><p style="margin-top:10px; font-family:'Indie Flower'; color:#555;">Target Price Range</p></div>
-                    <div class="polaroid"><div class="polaroid-content"><strong><span class="counter" data-target="46.6">0</span>%</strong></div><p style="margin-top:10px; font-family:'Indie Flower'; color:#555;">Use for Shopping</p></div>
-                    <div class="polaroid"><div class="polaroid-content"><strong><span class="counter" data-target="36.2">0</span>%</strong></div><p style="margin-top:10px; font-family:'Indie Flower'; color:#555;">Love Printed Designs</p></div>
-                    <div class="polaroid"><div class="polaroid-content"><strong><span class="counter" data-target="29.3">0</span>%</strong></div><p style="margin-top:10px; font-family:'Indie Flower'; color:#555;">Ethnic Style</p></div>
-                    <div class="polaroid"><div class="polaroid-content"><i class="fa-solid fa-heart" style="color:red;"></i></div><p style="margin-top:10px; font-family:'Indie Flower'; color:#555;">Eco-Conscious</p></div>
-                </div>
-            </div>
-
-            <!-- SLIDE 5: Supplier Selection (Vendor Battle) -->
-            <div class="slide">
-                <h2>Vendor Selection</h2>
-                <div class="grid-3">
-                    <div class="vendor-card winner">
-                        <div class="stamp-selected">SELECTED</div>
-                        <h4 style="color: var(--green);">HOME BUY</h4>
-                        <div style="font-size: 2em; font-weight: bold;">₹194</div>
-                        <p style="font-size: 0.8em; color: #666;">Amazon Prime<br>51" Laminated</p>
-                        <hr>
-                        <p><strong>Cost/Bag: ₹106.70</strong></p>
-                    </div>
-                    <div class="vendor-card" style="opacity: 0.7;">
-                        <h4>DELINGER</h4>
-                        <div style="font-size: 2em; font-weight: bold; color: #888;">₹320</div>
-                        <p style="font-size: 0.8em; color: #666;">Too Expensive</p>
-                        <hr>
-                        <p>Cost/Bag: ₹176.00</p>
-                    </div>
-                    <div class="vendor-card" style="opacity: 0.7;">
-                        <h4>Kwality Fab</h4>
-                        <div style="font-size: 2em; font-weight: bold; color: #888;">₹115</div>
-                        <p style="font-size: 0.8em; color: #666;">Logistics Issues</p>
-                        <hr>
-                        <p>Cost/Bag: ₹63.25</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SLIDE 6: Manufacturing (Production Thread) -->
-            <div class="slide">
-                <h2>Production Thread</h2>
+                <h2>Impact Analytics</h2>
                 <div class="grid-2">
-                    <div class="thread-container">
-                        <div class="thread-line"></div>
-                        <div class="thread-step process-step"><strong>1. Fabric Cutting</strong> (0.55m @ 300 GSM)</div>
-                        <div class="thread-step process-step"><strong>2. Handle Prep</strong> (1.2m Jute Tape)</div>
-                        <div class="thread-step process-step"><strong>3. Lamination</strong> (LDPE Coating)</div>
+                    <div>
+                        <div class="data-point">
+                            <strong>CO2 Absorption:</strong> 1 hectare of jute consumes <strong>15 tons</strong> of CO2 and releases <strong>11 tons</strong> of Oxygen in 100 days.
+                        </div>
+                        <div class="data-point">
+                            <strong>Biodegradability:</strong> 100% compostable within <strong>2-3 months</strong> if buried in soil.
+                        </div>
                     </div>
-                    <div class="thread-container">
-                        <div class="thread-line"></div>
-                        <div class="thread-step process-step"><strong>4. Screen Printing</strong> (Custom Dyes)</div>
-                        <div class="thread-step process-step"><strong>5. Final Assembly</strong> (Stitching & QC)</div>
-                        <div class="paper-item" style="text-align: center; font-style: italic;">"Streamlined for maximum efficiency."</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SLIDE 7: Cost Breakdown (Receipt) -->
-            <div class="slide">
-                <div class="receipt-container">
-                    <div class="receipt-header">
-                        <h3>JUTICA FACTORY</h3>
-                        <p>Production Invoice #001</p>
-                    </div>
-                    <div class="receipt-row"><span>Jute Fabric</span><span>106.70</span></div>
-                    <div class="receipt-row"><span>Handles</span><span>12.00</span></div>
-                    <div class="receipt-row"><span>Lamination</span><span>8.00</span></div>
-                    <div class="receipt-row"><span>Thread</span><span>3.00</span></div>
-                    <div class="receipt-row"><span>Printing</span><span>15.00</span></div>
-                    <div class="receipt-row"><span>Accessories</span><span>10.00</span></div>
-                    <div class="receipt-row" style="color:#888;"><span>Labor & Overhead</span><span>20.00</span></div>
-                    <div class="receipt-total receipt-row"><span>TOTAL</span><span>₹<span class="counter" data-target="174.70">0</span></span></div>
-                    <div style="text-align: center; margin-top: 20px; font-size: 0.8em;">THANK YOU FOR YOUR BUSINESS</div>
-                </div>
-            </div>
-
-            <!-- SLIDE 8: Variance (Blueprint) -->
-            <div class="slide">
-                <h2>Cost Blueprint</h2>
-                <div style="background: #e3f2fd; border: 2px solid #2196f3; padding: 20px; border-radius: 8px; display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center;">
-                    <div style="text-align: center;">
-                        <h4 style="color: #1976d2;">STANDARD</h4>
-                        <div style="font-size: 2.5em; font-weight: bold; color: #1565c0; opacity: 0.6;">₹<span class="counter" data-target="180">0</span></div>
-                    </div>
-                    <div style="text-align: center; background: white; padding: 10px 20px; border-radius: 50px; font-weight: bold; color: green; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                        + ₹<span class="counter" data-target="5.30">0</span> Saved
-                    </div>
-                    <div style="text-align: center;">
-                        <h4 style="color: #1976d2;">ACTUAL</h4>
-                        <div style="font-size: 2.5em; font-weight: bold; color: #0d47a1;">₹<span class="counter" data-target="174.7">0</span></div>
-                    </div>
-                </div>
-                <div class="grid-2" style="margin-top: 20px;">
-                    <div class="paper-item" style="border-left: 5px solid green;">
-                        <strong>Material Savings</strong><br>+₹13.30 (Bulk Sourcing)
-                    </div>
-                    <div class="paper-item" style="border-left: 5px solid red;">
-                        <strong>Labor Overage</strong><br>-₹8.00 (Process Inefficiency)
+                    <div class="paper-item" style="text-align: center;">
+                        <h4 style="margin-bottom: 15px;">vs. Synthetic (Plastic)</h4>
+                        <div style="font-size: 3em; color: #e74c3c;"><i class="fa-solid fa-scale-unbalanced"></i></div>
+                        <p style="font-weight: bold;">Jutica replaces approx.</p>
+                        <p style="font-size: 2em; color: var(--green); font-weight: bold;"><span class="counter" data-target="450">0</span></p>
+                        <p style="font-size: 0.8em; text-transform: uppercase;">Single-use bags over its lifespan</p>
                     </div>
                 </div>
             </div>
 
-            <!-- SLIDE 9: Value Prop (Showdown) -->
-            <div class="slide">
-                <h2>Market Showdown</h2>
-                <div class="grid-3" style="align-items: center;">
-                    <div class="vs-card">
-                        <span class="vs-badge">COMPETITOR A</span>
-                        <h4>LIKE STYLE</h4>
-                        <div style="font-size: 1.5em; text-decoration: line-through; color: #888;">₹398</div>
-                        <p style="color: red; font-size: 0.9em;">Expensive</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <div class="price-tag" style="transform: scale(1.3); margin: 0;">₹<span class="counter" data-target="250">0</span></div>
-                        <h3 style="margin-top: 20px; color: var(--leather);">JUTICA</h3>
-                        <p style="font-weight: bold; color: var(--green);">59% CHEAPER</p>
-                        <div style="font-size: 0.8em; color: #666; margin-top: 5px;">Cost: ₹<span class="counter" data-target="174.7">0</span></div>
-                    </div>
-                    <div class="vs-card">
-                        <span class="vs-badge">COMPETITOR B</span>
-                        <h4>Pragallya</h4>
-                        <div style="font-size: 1.5em; color: #888;">₹90-900</div>
-                        <p style="color: orange; font-size: 0.9em;">Inconsistent</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SLIDE 10: Growth Strategy (Redesigned) -->
-            <div class="slide">
-                <h2>Strategic Map</h2>
-                <div class="strategy-board">
-                    <!-- Strategy 1: Bulk -->
-                    <div class="strategy-card sc-bulk">
-                        <i class="fa-solid fa-handshake strat-icon"></i>
-                        <div class="strat-title">Bulk Procurement</div>
-                        <div class="strat-desc">Negotiate volume discounts with fabric suppliers to slash raw material costs.</div>
-                        <div class="strat-target">TARGET: ₹<span class="counter" data-target="150">0</span> / Bag</div>
-                    </div>
-
-                    <!-- Strategy 2: Efficiency -->
-                    <div class="strategy-card sc-eff">
-                        <i class="fa-solid fa-stopwatch strat-icon"></i>
-                        <div class="strat-title">Process Efficiency</div>
-                        <div class="strat-desc">Streamline stitching operations to correct the current labor variance.</div>
-                        <div class="strat-target">TARGET: ₹<span class="counter" data-target="3.00">0</span> Labor</div>
-                    </div>
-
-                    <!-- Strategy 3: Expansion -->
-                    <div class="strategy-card sc-exp">
-                        <i class="fa-solid fa-globe strat-icon"></i>
-                        <div class="strat-title">Market Expansion</div>
-                        <div class="strat-desc">Launch aggressive online campaigns and local retail partnerships.</div>
-                        <div class="strat-target">TARGET: <span class="counter" data-target="1000">0</span>+ Cust.</div>
-                    </div>
-
-                    <!-- Strategy 4: Design -->
-                    <div class="strategy-card sc-des">
-                        <i class="fa-solid fa-palette strat-icon"></i>
-                        <div class="strat-title">Design Diversification</div>
-                        <div class="strat-desc">Introduce ethnic prints & seasonal themes based on high demand.</div>
-                        <div class="strat-target">DEMAND: <span class="counter" data-target="72">0</span>% Eco</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SLIDE 11: Success (Certificate) -->
+            <!-- Slide 6: Strategic Conclusion -->
             <div class="slide" style="text-align: center;">
-                <div class="success-stamp">
-                    <h2 style="margin: 0; border: none;">SUCCESS</h2>
-                    <div style="font-size: 1.5em; font-weight: bold;">₹<span class="counter" data-target="75.30">0</span></div>
-                    <div style="font-size: 0.8em; text-transform: uppercase;">Profit Per Bag</div>
+                <h2 style="border: none;">Market Readiness</h2>
+                <div style="font-size: 5em; color: var(--gold); margin: 20px 0;"><i class="fa-solid fa-award"></i></div>
+                <p style="font-size: 1.4em; color: #555;">Final Verdict: <strong>VIABLE</strong></p>
+                <div style="max-width: 500px; margin: 30px auto; text-align: left;" class="paper-item">
+                    <ul style="list-style: none; line-height: 2;">
+                        <li><i class="fa-solid fa-check" style="color: green;"></i> Target Cost met (₹174.70 < ₹180)</li>
+                        <li><i class="fa-solid fa-check" style="color: green;"></i> 30.1% Operating Margin achieved</li>
+                        <li><i class="fa-solid fa-check" style="color: green;"></i> High Price Acceptance (72.4%)</li>
+                    </ul>
                 </div>
-                <p style="font-size: 1.5em; font-style: italic; margin-top: 40px;">"Sustainable • Affordable • Profitable"</p>
+                <h3 style="font-family: 'Indie Flower'; color: #888; margin-top: 20px;">Sustainable • Scalable • Superior</h3>
             </div>
 
-            <!-- SLIDE 12: Thank You -->
+            <!-- Slide 7: Thank You -->
             <div class="slide" style="text-align: center;">
-                <h1 style="font-size: 4em; border:none; color: var(--leather); margin-bottom: 20px;">THANK YOU</h1>
-                <div style="margin: 40px 0;">
-                    <i class="fa-solid fa-hands-clapping" style="font-size: 4em; color: var(--gold);"></i>
+                <h1>THANK YOU</h1>
+                <p style="font-size: 1.2em; color: #555;">Empowering Change, One Bag at a Time.</p>
+                <div style="margin-top: 40px;">
+                    <i class="fa-solid fa-leaf" style="font-size: 3em; color: var(--green);"></i>
                 </div>
-                <p style="font-size: 1.2em; color: #555; font-weight: bold;">Questions & Answers</p>
-                <p style="margin-top: 20px; font-family: 'Indie Flower'; color: #888;">We appreciate your attention.</p>
             </div>
-            
-            <!-- Removed nav-hint div -->
+
+        </div>
+
+        <!-- NAVIGATION CONTROLS -->
+        <div class="nav-controls">
+            <button class="nav-btn" onclick="previousSlide()"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="nav-btn" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
     </div>
 
@@ -767,37 +406,67 @@
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         
-        // --- Data ---
-        const teamMembers = [
-            { name: "Shrutika Thakur", id: "12520957", icon: "user" },
-            { name: "Esha Thakur", id: "12525589", icon: "user-pen" },
-            { name: "Satyam Jawla", id: "12508323", icon: "user-gear" },
-            { name: "Muhammad Shinaz", id: "12523581", icon: "user-tie" },
-            { name: "Riya", id: "12518595", icon: "user-tag" }
-        ];
+        // --- Popups Content ---
+        const contentData = {
+            team: `
+                <h3 style="color:var(--leather); border-bottom:2px solid var(--gold); padding-bottom:10px; margin-bottom:20px;">TEAM ROSTER</h3>
+                <div style="text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="paper-item"><strong>Shrutika Thakur</strong><br><small>12520957</small></div>
+                    <div class="paper-item"><strong>Esha Thakur</strong><br><small>12525589</small></div>
+                    <div class="paper-item"><strong>Satyam Jawla</strong><br><small>12508323</small></div>
+                    <div class="paper-item"><strong>Muhammad Shinaz</strong><br><small>12523581</small></div>
+                    <div class="paper-item"><strong>Riya</strong><br><small>12518595</small></div>
+                </div>
+            `,
+            project: `
+                <h3 style="color:var(--green); margin-bottom: 20px;">PROJECT SPECIFICATIONS</h3>
+                <div style="font-family: 'Courier New', monospace; background: white; padding: 20px; border: 1px dashed #3e2723; text-align: left;">
+                    <p><strong>SUBJECT:</strong> Financial Reporting II</p>
+                    <p><strong>CODE:</strong> ACCM507</p>
+                    <p><strong>EVALUATOR:</strong> Dr. Sakshi Thakur</p>
+                    <p><strong>SECTION:</strong> Q2555</p>
+                    <p><strong>THEME:</strong> Cost Optimization & Target Costing</p>
+                </div>
+            `,
+            costDetail: `
+                <h3 style="color:var(--leather); border-bottom:2px solid var(--gold); padding-bottom:10px; margin-bottom:20px;">DETAILED COST MANIFEST</h3>
+                <div style="text-align: left; font-family: 'Courier Prime', monospace; font-size: 0.85em; max-height: 400px; overflow-y: auto; background: #fff; padding: 15px; border: 1px solid #ddd; line-height: 1.6;">
+                    <p style="font-weight: bold; background: #eee; padding: 5px; margin-bottom: 5px;">A. DIRECT MATERIALS</p>
+                    <div style="display:flex; justify-content:space-between;"><span>- Jute Fabric (Main)</span><span>59.78</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>- Handles (Cotton Rope)</span><span>5.98</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>- Zipper</span><span>4.27</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>- Lining Cloth</span><span>6.83</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>- Buttons & Fasteners</span><span>2.57</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>- Printing (Dyes)</span><span>12.82</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>- Carriage Inward</span><span>4.96</span></div>
+                    
+                    <p style="font-weight: bold; background: #eee; padding: 5px; margin-top: 15px; margin-bottom: 5px;">B. DIRECT LABOUR</p>
+                    <div style="display:flex; justify-content:space-between;"><span>- Fabric Cutting</span><span>10.12</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>- Handle Prep</span><span>5.79</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>- Lamination</span><span>5.79</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>- Final Assembly & QC</span><span>14.49</span></div>
+                    
+                    <p style="font-weight: bold; background: #eee; padding: 5px; margin-top: 15px; margin-bottom: 5px;">D. FACTORY OVERHEADS</p>
+                    <div style="display:flex; justify-content:space-between;"><span>- Machine Power</span><span>14.84</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>- Supervision</span><span>4.95</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>- Factory Rent Share</span><span>3.30</span></div>
 
-        let teamHtml = `<h3 style="color:var(--leather); border-bottom:2px solid var(--gold); padding-bottom:10px;">TEAM ROSTER</h3><div class="team-grid">`;
-        teamMembers.forEach(m => {
-            teamHtml += `<div class="member-tag"><div class="member-icon"><i class="fa-solid fa-${m.icon}"></i></div><div class="member-info"><span class="member-name">${m.name}</span><span class="member-id">ID: ${m.id}</span></div></div>`;
-        });
-        teamHtml += `</div>`;
+                    <p style="font-weight: bold; background: #eee; padding: 5px; margin-top: 15px; margin-bottom: 5px;">F. SELLING & DIST.</p>
+                    <div style="display:flex; justify-content:space-between;"><span>- Packaging</span><span>6.00</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>- Marketing Transport</span><span>3.79</span></div>
+                    <hr style="margin: 15px 0; border: 1px solid #000;">
+                    <div style="display:flex; justify-content:space-between; font-weight: bold; font-size: 1.1em;"><span>FINAL COST OF SALES</span><span>₹174.70</span></div>
+                </div>
+            `
+        };
 
-        const projectHtml = `
-            <h3 style="color:var(--green); margin-bottom: 20px;">ACADEMIC PROJECT</h3>
-            <div class="project-manifest">
-                <div class="manifest-row"><span class="manifest-label">Subject</span><span class="manifest-value">Financial Reporting II</span></div>
-                <div class="manifest-row"><span class="manifest-label">Course Code</span><span class="manifest-value">ACCM507</span></div>
-                <div class="manifest-row"><span class="manifest-label">Section</span><span class="manifest-value">Q2555</span></div>
-                <div class="manifest-row"><span class="manifest-label">Module</span><span class="manifest-value">02</span></div>
-                <div class="manifest-row"><span class="manifest-label">Evaluator</span><span class="manifest-value">Dr. Sakshi Thakur</span></div>
-            </div>`;
-
-        // --- Functions ---
         function showInfo(type) {
             const overlay = document.getElementById('info-overlay');
             const content = document.getElementById('info-content');
-            content.innerHTML = (type === 'team') ? teamHtml : projectHtml;
-            overlay.classList.add('active');
+            if (contentData[type]) {
+                content.innerHTML = contentData[type];
+                overlay.classList.add('active');
+            }
         }
 
         function hideInfo() {
@@ -808,39 +477,43 @@
             document.body.classList.add('unzipped');
             setTimeout(() => {
                 document.getElementById('bag-cover').style.visibility = 'hidden';
+                updateSlides(); 
             }, 1200);
         }
 
-        // --- Counter Animation Function ---
+        // --- Counter Animation ---
         function animateCounters(slide) {
             const counters = slide.querySelectorAll('.counter');
             counters.forEach(counter => {
-                const target = +counter.getAttribute('data-target');
-                const duration = 1500; // 1.5s duration
-                const increment = target / (duration / 16); // 60fps approximation
-                
-                let current = 0;
-                const updateCount = () => {
-                    current += increment;
-                    if (current < target) {
-                        // Formatting: check if target is float or int
-                        if (Number.isInteger(target)) {
-                            counter.innerText = Math.ceil(current);
-                        } else {
-                            counter.innerText = current.toFixed(2);
-                        }
-                        requestAnimationFrame(updateCount);
+                const target = parseFloat(counter.getAttribute('data-target'));
+                const duration = 1200;
+                let startTime = null;
+
+                const step = (currentTime) => {
+                    if (!startTime) startTime = currentTime;
+                    const progress = Math.min((currentTime - startTime) / duration, 1);
+                    const currentVal = progress * target;
+                    
+                    if (Number.isInteger(target)) {
+                        counter.innerText = Math.floor(currentVal);
+                    } else {
+                        counter.innerText = currentVal.toFixed(2);
+                    }
+
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
                     } else {
                         counter.innerText = target;
                     }
                 };
-                updateCount();
+                requestAnimationFrame(step);
             });
         }
 
         function updateSlides() {
             slides.forEach((slide, index) => {
                 const diff = index - currentSlide;
+                
                 if (diff === 0) {
                     slide.style.opacity = 1;
                     slide.style.transform = `translate3d(0, 0, 0) rotateX(0deg)`;
@@ -848,39 +521,40 @@
                     slide.style.filter = "brightness(1)";
                     slide.style.pointerEvents = "auto";
                     
-                    // Trigger counter animation if not already animated
-                    // We remove class 'animated' when leaving so it re-triggers on return
-                    if (!slide.classList.contains('animated')) {
+                    if (!slide.classList.contains('visited')) {
                         animateCounters(slide);
-                        slide.classList.add('animated');
+                        slide.classList.add('visited');
                     }
-
+                    
+                    // Interaction handling
                     slide.onmousemove = (e) => {
                         const rect = slide.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        const xPct = (x / rect.width) - 0.5;
-                        const yPct = (y / rect.height) - 0.5;
-                        slide.style.transform = `translate3d(0, 0, 20px) rotateY(${xPct * 8}deg) rotateX(${-yPct * 8}deg)`;
+                        const x = (e.clientX - rect.left) / rect.width - 0.5;
+                        const y = (e.clientY - rect.top) / rect.height - 0.5;
+                        slide.style.transform = `translate3d(0, 0, 10px) rotateY(${x * 6}deg) rotateX(${y * -6}deg)`;
                     };
-                    slide.onmouseleave = () => { slide.style.transform = `translate3d(0, 0, 0) rotateX(0deg)`; };
                 } else if (diff > 0) {
-                    slide.style.opacity = Math.max(0.2, 1 - (diff * 0.25));
-                    slide.style.transform = `translate3d(0, ${150 + (diff * 60)}px, ${-300 - (diff * 100)}px) rotateX(-15deg)`;
+                    slide.style.opacity = Math.max(0, 1 - (diff * 0.4));
+                    slide.style.transform = `translate3d(0, ${100 + (diff * 40)}px, ${-200 - (diff * 80)}px) rotateX(-15deg)`;
                     slide.style.zIndex = 100 - diff;
-                    slide.style.filter = `brightness(${1 - (diff * 0.15)}) blur(${diff * 2}px)`;
+                    slide.style.filter = `blur(${diff * 3}px)`;
                     slide.style.pointerEvents = "none";
+                    slide.classList.remove('visited');
                     slide.onmousemove = null;
-                    slide.classList.remove('animated'); // Reset animation
                 } else {
                     slide.style.opacity = 0;
-                    slide.style.transform = `translate3d(0, -150vh, 100px) rotateX(20deg) rotateZ(${diff * -5}deg)`;
+                    slide.style.transform = `translate3d(0, -120vh, 100px) rotateX(30deg)`;
                     slide.style.zIndex = 0;
-                    slide.style.filter = "blur(10px)";
                     slide.style.pointerEvents = "none";
+                    slide.classList.remove('visited');
                     slide.onmousemove = null;
-                    slide.classList.remove('animated'); // Reset animation
                 }
+            });
+
+            // Parallax background items
+            const items = document.querySelectorAll('.bag-item');
+            items.forEach((item, i) => {
+                item.style.transform = `translateZ(${-50 - (i*30)}px) translateY(${currentSlide * 10}px)`;
             });
         }
 
@@ -892,7 +566,7 @@
             if (e.key === 'ArrowLeft') previousSlide();
         });
 
-        // Initial setup
+        // Initialize state
         updateSlides();
     </script>
 </body>
